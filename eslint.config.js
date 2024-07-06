@@ -35,7 +35,7 @@ export default tseslint.config(
   ...compat.extends('airbnb'),
   ...compat.extends('airbnb-typescript'),
   ...tseslint.configs.recommendedTypeChecked,
-
+  eslintConfigPrettier,
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
@@ -61,17 +61,11 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-return': 'error',
       'react-compiler/react-compiler': 'error',
       'react/react-in-jsx-scope': 'off',
+      'react/prefer-stateless-function': 'off',
     },
   },
   {
     files: ['**/*.js'],
     ...tseslint.configs.disableTypeChecked,
-  },
-  // {
-  //   // enable jest rules on test files
-  //   files: ['test/**'],
-  //   ...jestPlugin.configs['flat/recommended'],
-  // },
-
-  eslintConfigPrettier
+  }
 );
