@@ -2,6 +2,19 @@ import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginReactCompiler from 'eslint-plugin-react-compiler';
+import eslintPluginReact from 'eslint-plugin-react';
+
+import { FlatCompat } from '@eslint/eslintrc';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
 export default tseslint.config(
   {
@@ -19,11 +32,15 @@ export default tseslint.config(
   },
 
   eslint.configs.recommended,
+  ...compat.extends('airbnb'),
+  ...compat.extends('airbnb-typescript'),
   ...tseslint.configs.recommendedTypeChecked,
 
   {
     plugins: {
       '@typescript-eslint': tseslint.plugin,
+      react: eslintPluginReact,
+      'react-compiler': eslintPluginReactCompiler,
     },
     languageOptions: {
       globals: {
@@ -31,7 +48,6 @@ export default tseslint.config(
         ...globals.node,
         ...globals.es2020,
       },
-      // parser: tseslint.parser,
       parserOptions: {
         project: ['./tsconfig.json'],
       },
@@ -43,6 +59,8 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'error',
       '@typescript-eslint/no-unsafe-member-access': 'error',
       '@typescript-eslint/no-unsafe-return': 'error',
+      'react-compiler/react-compiler': 'error',
+      'react/react-in-jsx-scope': 'off',
     },
   },
   {

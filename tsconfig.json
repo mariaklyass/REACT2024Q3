@@ -24,5 +24,10 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true
   },
-  "include": ["src", ".prettierrc"]
+  "include": [
+    "src",
+    ".prettierrc",
+    "eslint-plugin-react-compiler.d.ts",
+    "eslint-plugin-react.d.ts"
+  ]
 }
