@@ -1,5 +1,5 @@
 import { Component, ChangeEvent, FormEvent } from 'react';
-import { SearchBarProps, SearchBarState } from './types';
+import { SearchBarProps, SearchBarState } from './utils/types';
 
 class SearchBar extends Component<SearchBarProps, SearchBarState> {
   constructor(props: SearchBarProps) {

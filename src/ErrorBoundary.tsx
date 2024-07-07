@@ -1,5 +1,5 @@
 import { Component, ErrorInfo } from 'react';
-import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
+import { ErrorBoundaryProps, ErrorBoundaryState } from './utils/types';
 
 export default class ErrorBoundary extends Component<
   ErrorBoundaryProps,
@@ -12,11 +12,8 @@ export default class ErrorBoundary extends Component<
     };
   }
 
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
-  }
-
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    this.setState({ hasError: true });
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
   }
 
@@ -24,6 +21,7 @@ export default class ErrorBoundary extends Component<
     const { hasError } = this.state;
     const { children, fallback } = this.props;
 
+    // return hasError ? fallback : children;
     if (hasError) {
       console.log('i rendered!');
       return fallback;

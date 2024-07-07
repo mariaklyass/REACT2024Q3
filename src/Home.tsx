@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import SearchBar from './SearchBar';
-import { HomeState } from './types';
+import { HomeState } from './utils/types';
 import CharacterList from './CharacterList';
 import fetchCharacterData from './utils/api';
 
