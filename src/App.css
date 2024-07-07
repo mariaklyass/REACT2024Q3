@@ -1,0 +1,15 @@
+#root {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  border: 1px solid #202020;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  height: 80dvh;
+  display: grid;
+  grid-template-rows: 100px auto;
+  width: 100%;
+}
