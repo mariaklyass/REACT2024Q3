@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import SearchBar from './SearchBar';
+import SearchBar from './SearchBar/SearchBar';
 import { HomeState } from './utils/types';
-import CharacterList from './CharacterList';
-import Loader from './Loader';
+import CharacterList from './CharacterList/CharacterList';
+import Loader from './UtilityComponents/Loader';
 import fetchCharacterData from './utils/api';
 
 export default class Home extends Component<Record<string, never>, HomeState> {

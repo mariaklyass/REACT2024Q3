@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ErrorBoundaryState } from './utils/types';
+import { ErrorBoundaryState } from '../utils/types';
 import './ErrorTrigger.css';
 
 class ErrorTrigger extends Component<

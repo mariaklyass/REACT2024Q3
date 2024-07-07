@@ -1,6 +1,6 @@
 import { Component, ReactNode } from 'react';
-import CharacterCard from './CharacterCard';
-import { CharacterListProps } from './utils/types';
+import CharacterCard from '../CharacterCard/CharacterCard';
+import { CharacterListProps } from '../utils/types';
 import './CharacterList.css';
 
 class CharacterList extends Component<CharacterListProps> {

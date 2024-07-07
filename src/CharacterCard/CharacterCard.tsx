@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { CharacterCardProps } from './utils/types';
+import { CharacterCardProps } from '../utils/types';
 import './CharacterCard.css';
 
 class CharacterCard extends Component<CharacterCardProps> {

@@ -1,5 +1,5 @@
 import { Component, ErrorInfo } from 'react';
-import { ErrorBoundaryProps, ErrorBoundaryState } from './utils/types';
+import { ErrorBoundaryProps, ErrorBoundaryState } from '../utils/types';
 
 export default class ErrorBoundary extends Component<
   ErrorBoundaryProps,
@@ -21,12 +21,6 @@ export default class ErrorBoundary extends Component<
     const { hasError } = this.state;
     const { children, fallback } = this.props;
 
-    // return hasError ? fallback : children;
-    if (hasError) {
-      console.log('i rendered!');
-      return fallback;
-    }
-
-    return children;
+    return hasError ? fallback : children;
   }
 }

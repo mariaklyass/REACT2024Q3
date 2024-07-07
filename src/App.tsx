@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import './App.css';
 import Home from './Home';
-import ErrorBoundary from './ErrorBoundary';
-import FallbackUI from './FallbackUI';
-import ErrorTrigger from './ErrorTrigger';
+import ErrorBoundary from './UtilityComponents/ErrorBoundary';
+import FallbackUI from './UtilityComponents/FallbackUI';
+import ErrorTrigger from './UtilityComponents/ErrorTrigger';
 
 class App extends Component {
   render() {

@@ -1,5 +1,5 @@
 import { Component, ChangeEvent, FormEvent } from 'react';
-import { SearchBarProps, SearchBarState } from './utils/types';
+import { SearchBarProps, SearchBarState } from '../utils/types';
 import './SearchBar.css';
 
 class SearchBar extends Component<SearchBarProps, SearchBarState> {
