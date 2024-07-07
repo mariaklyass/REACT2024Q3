@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface Character {
   id: number;
   name: string;
@@ -43,4 +45,13 @@ export interface HomeState {
 
 export interface ApiResponse {
   results: Character[];
+}
+
+export interface ErrorBoundaryProps {
+  fallback: ReactNode;
+  children: ReactNode;
+}
+
+export interface ErrorBoundaryState {
+  hasError: boolean;
 }
