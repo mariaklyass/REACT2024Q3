@@ -1,5 +1,6 @@
 import { Component, ChangeEvent, FormEvent } from 'react';
 import { SearchBarProps, SearchBarState } from './utils/types';
+import './SearchBar.css';
 
 class SearchBar extends Component<SearchBarProps, SearchBarState> {
   constructor(props: SearchBarProps) {
@@ -27,7 +28,7 @@ class SearchBar extends Component<SearchBarProps, SearchBarState> {
     const { searchQuery } = this.state;
 
     return (
-      <div>
+      <div className="search">
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"

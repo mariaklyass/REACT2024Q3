@@ -46,7 +46,7 @@ export default class Home extends Component<Record<string, never>, HomeState> {
       <div>
         <SearchBar handleSubmit={this.handleFetchResults} />
         {loading ? (
-          <Loader /> // Render the loader when loading
+          <Loader />
         ) : (
           <CharacterList results={results} error={error} />
         )}

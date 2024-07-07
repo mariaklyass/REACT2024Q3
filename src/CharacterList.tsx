@@ -1,6 +1,7 @@
 import { Component, ReactNode } from 'react';
 import CharacterCard from './CharacterCard';
 import { CharacterListProps } from './utils/types';
+import './CharacterList.css';
 
 class CharacterList extends Component<CharacterListProps> {
   render(): ReactNode {
@@ -23,7 +24,7 @@ class CharacterList extends Component<CharacterListProps> {
       <CharacterCard key={result.id} character={result} />
     ));
 
-    return <div>{searchResults}</div>;
+    return <div className="results">{searchResults}</div>;
   }
 }
 

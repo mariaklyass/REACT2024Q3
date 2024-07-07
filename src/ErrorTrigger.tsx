@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ErrorBoundaryState } from './utils/types';
+import './ErrorTrigger.css';
 
 class ErrorTrigger extends Component<
   Record<string, never>,
@@ -28,7 +29,7 @@ class ErrorTrigger extends Component<
     }
 
     return (
-      <button type="button" onClick={this.handleClick}>
+      <button type="button" onClick={this.handleClick} className="trigger-btn">
         Trigger Button
       </button>
     );
