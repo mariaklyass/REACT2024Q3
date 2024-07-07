@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import { Component, ChangeEvent, FormEvent } from 'react';
 import { SearchBarProps, SearchBarState } from './types';
 
 class SearchBar extends Component<SearchBarProps, SearchBarState> {
@@ -14,12 +14,13 @@ class SearchBar extends Component<SearchBarProps, SearchBarState> {
     this.setState({ searchQuery: value });
   };
 
-  handleSearch = () => {
+  handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const { searchQuery } = this.state;
     const trimmedQuery = searchQuery.trim();
     localStorage.setItem('searchQuery', trimmedQuery);
-    const { onSearch } = this.props;
-    onSearch(trimmedQuery);
+    const { handleSubmit } = this.props;
+    handleSubmit(trimmedQuery);
   };
 
   render() {
@@ -27,15 +28,15 @@ class SearchBar extends Component<SearchBarProps, SearchBarState> {
 
     return (
       <div>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={this.handleChange}
-          placeholder="Search..."
-        />
-        <button type="button" onClick={this.handleSearch}>
-          Search
-        </button>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={this.handleChange}
+            placeholder="Search..."
+          />
+          <button type="submit">Search</button>
+        </form>
       </div>
     );
   }

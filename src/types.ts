@@ -19,7 +19,7 @@ export interface Character {
   created: string;
 }
 
-export interface SearchResultsProps {
+export interface CharacterListProps {
   results: Character[];
   error: Error | null;
 }
@@ -29,9 +29,18 @@ export interface CharacterCardProps {
 }
 
 export interface SearchBarProps {
-  onSearch: (searchTerm: string) => void;
+  handleSubmit: (searchQuery: string) => void;
 }
 
 export interface SearchBarState {
   searchQuery: string;
+}
+
+export interface HomeState {
+  results: Character[];
+  error: Error | null;
+}
+
+export interface ApiResponse {
+  results: Character[];
 }

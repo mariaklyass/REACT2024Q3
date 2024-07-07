@@ -1,14 +1,12 @@
 import { Component } from 'react';
 import './App.css';
-import SearchBar from './SearchBar';
-import SearchResults from './SearchResults';
+import Home from './Home';
 
 class App extends Component {
   render() {
     return (
       <div className="app">
-        <SearchBar />
-        <SearchResults />
+        <Home />
       </div>
     );
   }
