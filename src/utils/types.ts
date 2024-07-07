@@ -41,6 +41,7 @@ export interface SearchBarState {
 export interface HomeState {
   results: Character[];
   error: Error | null;
+  loading: boolean;
 }
 
 export interface ApiResponse {

@@ -7,7 +7,12 @@ class CharacterList extends Component<CharacterListProps> {
     const { results, error } = this.props;
 
     if (error) {
-      return <div>Error loading results.</div>;
+      return (
+        <div>
+          There isn&apos;t a character with that name. <br />
+          Would you mind trying something else?
+        </div>
+      );
     }
 
     if (results.length === 0) {

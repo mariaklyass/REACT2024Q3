@@ -10,6 +10,9 @@ class FallbackUI extends Component {
           Please try refreshing the page or contact support if the problem
           persists.
         </p>
+        <p>
+          <a href="/">Go to the Main Page</a>
+        </p>
       </div>
     );
   }
