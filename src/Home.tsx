@@ -4,15 +4,17 @@ import CharacterList from './CharacterList/CharacterList';
 import Loader from './UtilityComponents/Loader';
 import fetchCharacterData from './utils/api';
 import { Character } from './utils/types';
+import useLocalStorage from './hooks/useLocalStorage';
 
 function Home() {
   const [results, setResults] = useState<Character[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useLocalStorage('searchQuery', '');
 
-  const fetchCharacters = (searchQuery: string) => {
+  const fetchCharacters = (query: string) => {
     setLoading(true);
-    fetchCharacterData(searchQuery)
+    fetchCharacterData(query)
       .then(res => {
         setResults(res);
         setError(null);
@@ -25,19 +27,13 @@ function Home() {
       .finally(() => setLoading(false));
   };
 
-  const fetchCharactersFromStorage = () => {
-    const searchQuery = localStorage.getItem('searchQuery') || '';
-    fetchCharacters(searchQuery);
-  };
-
-  const handleFetchResults = (searchQuery: string) => {
-    localStorage.setItem('searchQuery', searchQuery);
-    fetchCharacters(searchQuery);
+  const handleFetchResults = (query: string) => {
+    setSearchQuery(query);
   };
 
   useEffect(() => {
-    fetchCharactersFromStorage();
-  }, []);
+    fetchCharacters(searchQuery);
+  }, [searchQuery]);
 
   return (
     <div>

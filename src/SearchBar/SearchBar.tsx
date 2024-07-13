@@ -1,16 +1,10 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import './SearchBar.css';
 import { SearchBarProps } from '../utils/types';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function SearchBar({ handleSubmit }: SearchBarProps) {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
-  useEffect(() => {
-    const savedSearchTerm = localStorage.getItem('searchQuery');
-    if (savedSearchTerm) {
-      setSearchQuery(savedSearchTerm);
-    }
-  }, []);
+  const [searchQuery, setSearchQuery] = useLocalStorage('searchQuery', '');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -20,7 +14,7 @@ function SearchBar({ handleSubmit }: SearchBarProps) {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedQuery = searchQuery.trim();
-    localStorage.setItem('searchQuery', trimmedQuery);
+    setSearchQuery(trimmedQuery);
     handleSubmit(trimmedQuery);
   };
 
