@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar/SearchBar';
 import CharacterList from './CharacterList/CharacterList';
 import Loader from './UtilityComponents/Loader';
+import Pagination from './UtilityComponents/Pagination';
 import fetchCharacterData from './utils/api';
 import { Character } from './utils/types';
 import useLocalStorage from './hooks/useLocalStorage';
@@ -12,11 +14,22 @@ function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useLocalStorage('searchQuery', '');
 
-  const fetchCharacters = (query: string) => {
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const getPageFromQuery = () => {
+    const params = new URLSearchParams(location.search);
+    return parseInt(params.get('page') || '1', 10);
+  };
+  const [currentPage, setCurrentPage] = useState<number>(getPageFromQuery());
+
+  const fetchCharacters = (query: string, page: number) => {
     setLoading(true);
-    fetchCharacterData(query)
+    fetchCharacterData(query, page)
       .then(res => {
-        setResults(res);
+        setResults(res.results);
+        setTotalPages(res.totalPages);
         setError(null);
       })
       .catch(err => {
@@ -29,16 +42,29 @@ function Home() {
 
   const handleFetchResults = (query: string) => {
     setSearchQuery(query);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
-    fetchCharacters(searchQuery);
-  }, [searchQuery]);
+    const page = getPageFromQuery();
+    fetchCharacters(searchQuery, page);
+  }, [searchQuery, location.search]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    params.set('page', currentPage.toString());
+    navigate({ search: params.toString() });
+  }, [currentPage, navigate, location.search]);
 
   return (
     <div>
       <SearchBar handleSubmit={handleFetchResults} />
       {loading ? <Loader /> : <CharacterList results={results} error={error} />}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }

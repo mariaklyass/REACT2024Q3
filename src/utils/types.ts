@@ -44,7 +44,15 @@ export interface HomeState {
   loading: boolean;
 }
 
+export interface Info {
+  count: number;
+  pages: number;
+  next: string | null;
+  prev: string | null;
+}
+
 export interface ApiResponse {
+  info: Info;
   results: Character[];
 }
 
@@ -55,4 +63,10 @@ export interface ErrorBoundaryProps {
 
 export interface ErrorBoundaryState {
   hasError: boolean;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (page: number) => void;
 }

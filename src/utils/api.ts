@@ -4,12 +4,20 @@ import { ApiResponse, Character } from './types';
 const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
 const fetchCharacterData = async (
-  searchQuery: string
-): Promise<Character[]> => {
+  searchQuery: string,
+  page: number = 1
+): Promise<{ results: Character[]; totalPages: number }> => {
   const response = await axios.get<ApiResponse>(BASE_URL, {
-    params: searchQuery ? { name: searchQuery } : {},
+    params: {
+      name: searchQuery || undefined,
+      page,
+    },
   });
-  return response.data.results;
+  const { results, info } = response.data;
+  return {
+    results,
+    totalPages: info.pages,
+  };
 };
 
 export default fetchCharacterData;
