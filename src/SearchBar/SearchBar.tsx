@@ -1,46 +1,42 @@
-import { Component, ChangeEvent, FormEvent } from 'react';
-import { SearchBarProps, SearchBarState } from '../utils/types';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import './SearchBar.css';
+import { SearchBarProps } from '../utils/types';
 
-class SearchBar extends Component<SearchBarProps, SearchBarState> {
-  constructor(props: SearchBarProps) {
-    super(props);
-    this.state = {
-      searchQuery: localStorage.getItem('searchQuery') || '',
-    };
-  }
+function SearchBar({ handleSubmit }: SearchBarProps) {
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const savedSearchTerm = localStorage.getItem('searchQuery');
+    if (savedSearchTerm) {
+      setSearchQuery(savedSearchTerm);
+    }
+  }, []);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    this.setState({ searchQuery: value });
+    setSearchQuery(value);
   };
 
-  handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { searchQuery } = this.state;
     const trimmedQuery = searchQuery.trim();
     localStorage.setItem('searchQuery', trimmedQuery);
-    const { handleSubmit } = this.props;
     handleSubmit(trimmedQuery);
   };
 
-  render() {
-    const { searchQuery } = this.state;
-
-    return (
-      <div className="search">
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={this.handleChange}
-            placeholder="Search..."
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="search">
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleChange}
+          placeholder="Search..."
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  );
 }
 
 export default SearchBar;

@@ -1,10 +1,12 @@
-import { Component } from 'react';
 import './Loader.css';
 
-class Loader extends Component {
-  render() {
-    return <div className="spinner">Loading...</div>;
-  }
+function Loader() {
+  return (
+    <div>
+      <div className="spinner" />
+      <p>Loading...</p>
+    </div>
+  );
 }
 
 export default Loader;

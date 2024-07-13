@@ -12,9 +12,9 @@ export default class ErrorBoundary extends Component<
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({ hasError: true });
+  static getDerivedStateFromError(error: Error, errorInfo: ErrorInfo) {
     console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    return { hasError: true };
   }
 
   render() {

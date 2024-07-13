@@ -62,6 +62,7 @@ export default tseslint.config(
       'react-compiler/react-compiler': 'error',
       'react/react-in-jsx-scope': 'off',
       'react/prefer-stateless-function': 'off',
+      'react/prop-types': 'off',
       'no-console': 'off',
     },
   },
