@@ -1,26 +1,15 @@
-import { ApiResponse } from './types';
+import axios from 'axios';
+import { ApiResponse, Character } from './types';
+
+const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
 const fetchCharacterData = async (
   searchQuery: string
-): Promise<ApiResponse['results']> => {
-  let url = `https://rickandmortyapi.com/api/character`;
-  if (searchQuery) {
-    url += `?name=${searchQuery}`;
-  }
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data: ApiResponse = (await response.json()) as ApiResponse;
-    return data.results;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Error fetching data: ${error.message}`);
-    }
-    throw new Error('Unknown error occurred');
-  }
+): Promise<Character[]> => {
+  const response = await axios.get<ApiResponse>(BASE_URL, {
+    params: searchQuery ? { name: searchQuery } : {},
+  });
+  return response.data.results;
 };
 
 export default fetchCharacterData;
