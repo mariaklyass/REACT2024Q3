@@ -22,12 +22,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "types": ["vitest/globals"]
   },
   "include": [
     "src",
     ".prettierrc",
     "eslint-plugin-react-compiler.d.ts",
-    "eslint-plugin-react.d.ts"
+    "eslint-plugin-react.d.ts",
+    "vite.config.ts",
+    "src/tests/setup.ts"
   ]
 }

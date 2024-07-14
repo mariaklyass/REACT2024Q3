@@ -64,6 +64,7 @@ export default tseslint.config(
       'react/prefer-stateless-function': 'off',
       'react/prop-types': 'off',
       'no-console': 'off',
+      'import/no-extraneous-dependencies': 'off',
     },
   },
   {
