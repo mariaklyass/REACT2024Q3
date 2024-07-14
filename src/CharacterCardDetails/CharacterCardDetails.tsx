@@ -42,22 +42,18 @@ function CharacterCardDetails() {
   }
 
   return (
-    <div>
-      {character ? (
-        <>
-          <button type="button" onClick={handleClose}>
-            Close
-          </button>
-          <h1>{character.name}</h1>
-          <p>Status: {character.status}</p>
-          <p>Species: {character.species}</p>
-          <p>Gender: {character.gender}</p>
-          <img src={character.image} alt={character.name} />
-        </>
-      ) : (
-        <div />
-      )}
-    </div>
+    character && (
+      <>
+        <button type="button" onClick={handleClose}>
+          Close
+        </button>
+        <h1>{character.name}</h1>
+        <p>Status: {character.status}</p>
+        <p>Species: {character.species}</p>
+        <p>Gender: {character.gender}</p>
+        <img src={character.image} alt={character.name} />
+      </>
+    )
   );
 }
 

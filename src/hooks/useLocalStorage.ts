@@ -6,11 +6,22 @@ const useLocalStorage = (key: string, initialValue: string = '') => {
     return valueLS !== null ? valueLS : initialValue;
   });
 
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [key, value]);
+  const updateValue = (newValue: string) => {
+    setValue(newValue);
+    localStorage.setItem(key, newValue);
+  };
 
-  return [value, setValue] as const;
+  useEffect(() => {
+    const valueLS = localStorage.getItem(key);
+    if (valueLS !== null) {
+      setValue(valueLS);
+    } else {
+      localStorage.setItem(key, initialValue);
+      setValue(initialValue);
+    }
+  }, [key, initialValue]);
+
+  return [value, updateValue] as const;
 };
 
 export default useLocalStorage;
