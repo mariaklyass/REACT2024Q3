@@ -3,7 +3,7 @@ import { ApiResponse, Character } from './types';
 
 const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
-const fetchCharacterData = async (
+export const fetchCharacterData = async (
   searchQuery: string,
   page: number = 1
 ): Promise<{ results: Character[]; totalPages: number }> => {
@@ -20,4 +20,9 @@ const fetchCharacterData = async (
   };
 };
 
-export default fetchCharacterData;
+export const fetchCharacterDataById = async (
+  id: string
+): Promise<Character> => {
+  const response = await axios.get<Character>(`${BASE_URL}/${id}`);
+  return response.data;
+};

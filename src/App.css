@@ -6,10 +6,19 @@
 }
 
 .app {
-  border: 1px solid #202020;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  height: 80dvh;
-  display: grid;
-  grid-template-rows: 100px auto;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+
+.sidebar {
+  flex: 1;
+  .main-page {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.detail {
+  flex: 1;
 }

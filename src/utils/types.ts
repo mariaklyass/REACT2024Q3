@@ -24,10 +24,12 @@ export interface Character {
 export interface CharacterListProps {
   results: Character[];
   error: Error | null;
+  currentPage: number;
 }
 
 export interface CharacterCardProps {
   character: Character;
+  currentPage: number;
 }
 
 export interface SearchBarProps {
@@ -69,4 +71,9 @@ export interface PaginationProps {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+}
+
+export interface RouteError {
+  status?: number;
+  message?: string;
 }

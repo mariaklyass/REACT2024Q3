@@ -4,7 +4,7 @@ import SearchBar from './SearchBar/SearchBar';
 import CharacterList from './CharacterList/CharacterList';
 import Loader from './UtilityComponents/Loader';
 import Pagination from './UtilityComponents/Pagination';
-import fetchCharacterData from './utils/api';
+import { fetchCharacterData } from './utils/api';
 import { Character } from './utils/types';
 import useLocalStorage from './hooks/useLocalStorage';
 
@@ -20,7 +20,7 @@ function Home() {
 
   const getPageFromQuery = () => {
     const params = new URLSearchParams(location.search);
-    return parseInt(params.get('page') || '1', 10);
+    return parseInt(params.get('frontpage') || '1', 10);
   };
   const [currentPage, setCurrentPage] = useState<number>(getPageFromQuery());
 
@@ -52,14 +52,22 @@ function Home() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    params.set('page', currentPage.toString());
+    params.set('frontpage', currentPage.toString());
     navigate({ search: params.toString() });
   }, [currentPage, navigate, location.search]);
 
   return (
-    <div>
+    <div className="main-page">
       <SearchBar handleSubmit={handleFetchResults} />
-      {loading ? <Loader /> : <CharacterList results={results} error={error} />}
+      {loading ? (
+        <Loader />
+      ) : (
+        <CharacterList
+          results={results}
+          error={error}
+          currentPage={currentPage}
+        />
+      )}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
