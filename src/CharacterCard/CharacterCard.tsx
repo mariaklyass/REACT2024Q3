@@ -1,5 +1,5 @@
-import { CharacterCardProps } from '../utils/types';
 import './CharacterCard.css';
+import { CharacterCardProps } from '../utils/types';
 
 function CharacterCard({ character }: CharacterCardProps) {
   const { name, status, species, image } = character;

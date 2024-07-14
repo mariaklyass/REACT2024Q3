@@ -1,24 +1,24 @@
 import { ReactNode } from 'react';
 
 export interface Character {
-  id: number;
+  id?: number;
   name: string;
   status: 'Alive' | 'Dead' | 'unknown';
   species: string;
-  type: string;
-  gender: 'Female' | 'Male' | 'Genderless' | 'unknown';
-  origin: {
+  type?: string;
+  gender?: 'Female' | 'Male' | 'Genderless' | 'unknown';
+  origin?: {
     name: string;
     url: string;
   };
-  location: {
+  location?: {
     name: string;
     url: string;
   };
   image: string;
-  episode: string[];
-  url: string;
-  created: string;
+  episode?: string[];
+  url?: string;
+  created?: string;
 }
 
 export interface CharacterListProps {
@@ -29,7 +29,6 @@ export interface CharacterListProps {
 
 export interface CharacterCardProps {
   character: Character;
-  currentPage: number;
 }
 
 export interface SearchBarProps {
