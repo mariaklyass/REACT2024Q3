@@ -62,11 +62,14 @@ function Home() {
       {loading ? (
         <Loader />
       ) : (
-        <CharacterList
-          results={results}
-          error={error}
-          currentPage={currentPage}
-        />
+        <>
+          <h1>All Characters</h1>
+          <CharacterList
+            results={results}
+            error={error}
+            currentPage={currentPage}
+          />
+        </>
       )}
       <Pagination
         currentPage={currentPage}
