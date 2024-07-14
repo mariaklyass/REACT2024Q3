@@ -16,7 +16,7 @@ function CharacterList({ results, error, currentPage }: CharacterListProps) {
   const searchResults = results.map(result => (
     <div key={result.id}>
       <Link to={`/?frontpage=${currentPage}&details=${result.id}`}>
-        <CharacterCard character={result} currentPage={currentPage} />
+        <CharacterCard character={result} />
       </Link>
     </div>
   ));
