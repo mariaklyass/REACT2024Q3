@@ -1,0 +1,23 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  background: rgba(64, 86, 105, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  h2,
+  p {
+    padding: 0.1rem 0.5rem;
+    margin: 0;
+  }
+  h2 {
+    flex-grow: 1;
+  }
+  img {
+    width: 100%;
+  }
+}
