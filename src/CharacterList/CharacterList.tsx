@@ -6,9 +6,9 @@ import './CharacterList.css';
 function CharacterList({ results, error, currentPage }: CharacterListProps) {
   if (error || results.length === 0) {
     return (
-      <div className="results-error">
-        There isn&apos;t a character with that name. <br />
-        Would you mind trying something else?
+      <div className="results-error" data-testid="error-message">
+        There aren&apos;t any characters. <br />
+        Would you mind trying to search for something else or refresh the page?
       </div>
     );
   }
