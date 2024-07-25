@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './index.css';
-import Root from './Root';
-import ErrorPage from './UtilityComponents/ErrorPage';
-import CharacterCardDetails from './CharacterCardDetails/CharacterCardDetails';
+import './App.css';
+import App from './App';
+import ErrorPage from './components/UtilityComponents/ErrorPage';
+import CharacterCardDetails from './components/CharacterCardDetails/CharacterCardDetails';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: <App />,
     errorElement: <ErrorPage />,
     children: [
       {
