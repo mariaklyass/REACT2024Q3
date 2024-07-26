@@ -1,3 +1,5 @@
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ReactNode } from 'react';
 
 export interface Character {
@@ -23,7 +25,7 @@ export interface Character {
 
 export interface CharacterListProps {
   results: Character[];
-  error: Error | null;
+  error: Error | FetchBaseQueryError | SerializedError | null;
   currentPage: number;
 }
 
@@ -75,4 +77,9 @@ export interface PaginationProps {
 export interface RouteError {
   status?: number;
   message?: string;
+}
+
+export interface FetchCharactersParams {
+  name: string;
+  page: number;
 }
