@@ -83,3 +83,8 @@ export interface FetchCharactersParams {
   name: string;
   page: number;
 }
+
+export interface HomeSlice {
+  searchQuery: string;
+  currentPage: number;
+}

@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { HomeSlice } from 'src/utils/types';
 
-export interface HomeState {
-  searchQuery: string;
-  currentPage: number;
-}
-
-const initialState: HomeState = {
+const initialState: HomeSlice = {
   searchQuery: '',
   currentPage: 1,
 };

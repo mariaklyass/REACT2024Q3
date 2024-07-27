@@ -7,6 +7,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": { "@reduxjs/toolkit": ["node_modules/@reduxjs/toolkit/"] },
 
     // Bundler mode
     "moduleResolution": "bundler",
