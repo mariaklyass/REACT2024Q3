@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import { SearchBarState } from 'src/utils/types';
 import SearchBar from './SearchBar';
 import homeReducer, { setSearchQuery } from '../../slices/homeSlice';
@@ -40,7 +41,9 @@ describe('SearchBar component', () => {
   it('renders the SearchBar component with initial state', () => {
     render(
       <Provider store={store}>
-        <SearchBar handleSubmit={mockHandleSubmit} />
+        <MemoryRouter>
+          <SearchBar handleSubmit={mockHandleSubmit} />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -51,7 +54,9 @@ describe('SearchBar component', () => {
   it('updates local state on input change', () => {
     render(
       <Provider store={store}>
-        <SearchBar handleSubmit={mockHandleSubmit} />
+        <MemoryRouter>
+          <SearchBar handleSubmit={mockHandleSubmit} />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -67,7 +72,9 @@ describe('SearchBar component', () => {
 
     render(
       <Provider store={store}>
-        <SearchBar handleSubmit={mockHandleSubmit} />
+        <MemoryRouter>
+          <SearchBar handleSubmit={mockHandleSubmit} />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -87,7 +94,9 @@ describe('SearchBar component', () => {
 
     render(
       <Provider store={store}>
-        <SearchBar handleSubmit={mockHandleSubmit} />
+        <MemoryRouter>
+          <SearchBar handleSubmit={mockHandleSubmit} />
+        </MemoryRouter>
       </Provider>
     );
 
