@@ -1,7 +1,9 @@
-import { ReactNode } from 'react';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { ReactNode, Dispatch, SetStateAction } from 'react';
 
 export interface Character {
-  id?: number;
+  id: number;
   name: string;
   status: 'Alive' | 'Dead' | 'unknown';
   species: string;
@@ -23,7 +25,7 @@ export interface Character {
 
 export interface CharacterListProps {
   results: Character[];
-  error: Error | null;
+  error: Error | FetchBaseQueryError | SerializedError | null;
   currentPage: number;
 }
 
@@ -36,7 +38,9 @@ export interface SearchBarProps {
 }
 
 export interface SearchBarState {
-  searchQuery: string;
+  home: {
+    searchQuery: string;
+  };
 }
 
 export interface HomeState {
@@ -75,4 +79,73 @@ export interface PaginationProps {
 export interface RouteError {
   status?: number;
   message?: string;
+}
+
+export interface FetchCharactersParams {
+  name: string;
+  page: number;
+}
+
+export interface HomeSlice {
+  searchQuery: string;
+  currentPage: number;
+  characters: Character[];
+}
+
+export interface SelectedState {
+  selectedCharacters: Character[];
+}
+
+export interface MockState {
+  selected: {
+    selectedCharacters: Character[];
+  };
+}
+
+export interface CharactersByPage {
+  [key: number]: Character[];
+}
+
+export type ButtonType = 'primary' | 'secondary';
+export type ThemeType = 'dark' | 'light';
+export enum Color {
+  WHITE = '#fff',
+  DARK_GRAY = '#242424',
+  LIGHT_GRAY = '#EFEAE9',
+  VIOLET = '#DCCAEE',
+  DARK_VIOLET = '#49355B',
+  YELLOW = '#FDF1D6',
+  GREEN = '#2F4032',
+}
+export interface Theme {
+  '--primary': Color;
+  '--secondary': Color;
+  '--background': Color;
+  '--white': Color;
+}
+export const THEMES: Record<ThemeType, Theme> = {
+  light: {
+    '--primary': Color.DARK_VIOLET,
+    '--secondary': Color.GREEN,
+    '--background': Color.LIGHT_GRAY,
+    '--white': Color.WHITE,
+  },
+  dark: {
+    '--primary': Color.VIOLET,
+    '--secondary': Color.YELLOW,
+    '--background': Color.DARK_GRAY,
+    '--white': Color.WHITE,
+  },
+};
+export interface ButtonProps {
+  type: ButtonType;
+  theme: Theme;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
+}
+
+export interface ThemeContextProps {
+  themeType: ThemeType;
+  theme: Theme;
+  setCurrentTheme: Dispatch<SetStateAction<ThemeType>>;
 }

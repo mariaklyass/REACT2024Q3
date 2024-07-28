@@ -7,6 +7,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": { "@reduxjs/toolkit": ["node_modules/@reduxjs/toolkit/"] },
 
     // Bundler mode
     "moduleResolution": "bundler",
@@ -26,7 +28,7 @@
     "types": ["vitest/globals"]
   },
   "include": [
-    "src",
+    "src/**/*",
     ".prettierrc",
     "eslint-plugin-react-compiler.d.ts",
     "eslint-plugin-react.d.ts",
