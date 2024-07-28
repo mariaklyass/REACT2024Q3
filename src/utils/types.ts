@@ -38,7 +38,9 @@ export interface SearchBarProps {
 }
 
 export interface SearchBarState {
-  searchQuery: string;
+  home: {
+    searchQuery: string;
+  };
 }
 
 export interface HomeState {
@@ -87,6 +89,11 @@ export interface FetchCharactersParams {
 export interface HomeSlice {
   searchQuery: string;
   currentPage: number;
+  characters: Character[];
+}
+
+export interface CharactersByPage {
+  [key: number]: Character[];
 }
 
 export type ButtonType = 'primary' | 'secondary';

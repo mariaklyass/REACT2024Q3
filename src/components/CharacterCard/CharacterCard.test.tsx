@@ -1,44 +1,87 @@
-import { it, expect } from 'vitest';
+import { it, expect, describe, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
 import CharacterCard from './CharacterCard';
 import CharacterCardDetails from '../CharacterCardDetails/CharacterCardDetails';
+import homeReducer from '../../slices/homeSlice';
+import { useFetchCharacterByIdQuery } from '../../slices/apiSlice';
+
+const createTestStore = () =>
+  configureStore({
+    reducer: {
+      home: homeReducer,
+    },
+  });
+
+vi.mock('../../slices/apiSlice', () => ({
+  useFetchCharacterByIdQuery: vi.fn(),
+}));
+
+const mockCharacter = {
+  name: 'Rick Sanchez',
+  status: 'Alive' as 'Alive' | 'Dead' | 'unknown',
+  species: 'Human',
+  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+};
 
 describe('Card Component', () => {
-  const character = {
-    name: 'Rick Sanchez',
-    status: 'Alive' as 'Alive' | 'Dead' | 'unknown',
-    species: 'Human',
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-  };
+  let store: ReturnType<typeof createTestStore>;
+
+  beforeEach(() => {
+    store = createTestStore();
+    vi.clearAllMocks();
+  });
 
   it('CharacterCard renders correctly with mock data', () => {
-    render(<CharacterCard character={character} />);
+    render(
+      <Provider store={store}>
+        <CharacterCard character={mockCharacter} />
+      </Provider>
+    );
 
     expect(screen.getByTestId('card-element')).toBeInTheDocument();
-    expect(screen.getByAltText(character.name)).toHaveAttribute(
+    expect(screen.getByAltText(mockCharacter.name)).toHaveAttribute(
       'src',
-      character.image
+      mockCharacter.image
     );
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      character.name
+      mockCharacter.name
     );
     expect(
-      screen.getByText(`${character.status} - ${character.species}`)
+      screen.getByText(`${mockCharacter.status} - ${mockCharacter.species}`)
     ).toBeInTheDocument();
   });
 
   it('validates that clicking on a card opens a detailed card component', () => {
-    render(<CharacterCard character={character} />);
-    fireEvent.click(screen.getByTestId('card-element'));
+    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: mockCharacter,
+      isFetching: false,
+      error: null,
+    });
+
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <CharacterCardDetails />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <CharacterCard character={mockCharacter} />
+        </MemoryRouter>
+      </Provider>
     );
+
+    fireEvent.click(screen.getByTestId('card-element'));
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <CharacterCardDetails />
+        </MemoryRouter>
+      </Provider>
+    );
+
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      character.name
+      mockCharacter.name
     );
   });
 });

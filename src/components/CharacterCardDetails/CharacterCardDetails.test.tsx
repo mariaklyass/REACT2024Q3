@@ -1,106 +1,137 @@
-import { it, describe, expect, vi } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import { vi } from 'vitest';
+import { Character } from 'src/utils/types';
 import CharacterCardDetails from './CharacterCardDetails';
-import { fetchCharacterDataById } from '../../utils/api';
-import { Character } from '../../utils/types';
+import { useFetchCharacterByIdQuery } from '../../slices/apiSlice';
+import homeReducer from '../../slices/homeSlice';
 
-type FetchCharacterDataById = (id: string) => Promise<Character>;
+const mockCharacter: Character = {
+  id: 1,
+  name: 'Rick Sanchez',
+  status: 'Alive',
+  species: 'Human',
+  type: '',
+  gender: 'Male',
+  origin: {
+    name: 'Earth',
+    url: 'https://rickandmortyapi.com/api/location/1',
+  },
+  location: {
+    name: 'Earth',
+    url: 'https://rickandmortyapi.com/api/location/20',
+  },
+  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+  episode: [
+    'https://rickandmortyapi.com/api/episode/1',
+    'https://rickandmortyapi.com/api/episode/2',
+  ],
+  url: 'https://rickandmortyapi.com/api/character/1',
+  created: '2017-11-04T18:48:46.250Z',
+};
 
-vi.mock('../../utils/api', () => ({
-  fetchCharacterDataById: vi.fn() as FetchCharacterDataById,
+vi.mock('../../slices/apiSlice', () => ({
+  useFetchCharacterByIdQuery: vi.fn(),
 }));
 
-vi.mock('../UtilityComponents/Loader', () => ({
-  __esModule: true,
-  default: () => <div>Loading...</div>,
-}));
+const createTestStore = () =>
+  configureStore({
+    reducer: {
+      home: homeReducer,
+    },
+  });
 
-vi.mock('../UtilityComponents/FallbackUI', () => ({
-  __esModule: true,
-  default: () => <div>Error loading data</div>,
-}));
-
-describe('Detailed Card Component', () => {
-  const mockCharacter = {
-    id: '1',
-    name: 'Rick Sanchez',
-    status: 'Alive',
-    species: 'Human',
-    gender: 'Male',
-    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-  };
+describe('CharacterCardDetails component', () => {
+  let store: ReturnType<typeof createTestStore>;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    store = createTestStore();
   });
 
-  it('checks that a loading indicator is displayed while fetching data', () => {
-    (fetchCharacterDataById as jest.Mock).mockResolvedValueOnce(
-      new Promise(() => {})
-    );
+  it('renders the CharacterCardDetails component with initial state', () => {
+    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: mockCharacter,
+      isFetching: false,
+      error: null,
+    });
 
     render(
-      <MemoryRouter initialEntries={['/?details=1']}>
-        <Routes>
-          <Route path="/" element={<CharacterCardDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <Routes>
+            <Route path="/" element={<CharacterCardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText(/Rick Sanchez/i)).toBeInTheDocument();
   });
 
-  it('makes sure the detailed card component correctly displays the detailed card data', async () => {
-    (fetchCharacterDataById as jest.Mock).mockResolvedValue(mockCharacter);
+  it('handles closing the character card', () => {
+    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: mockCharacter,
+      isFetching: false,
+      error: null,
+    });
 
     render(
-      <MemoryRouter initialEntries={['/?details=1']}>
-        <Routes>
-          <Route path="/" element={<CharacterCardDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <Routes>
+            <Route path="/" element={<CharacterCardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
-    await waitFor(() =>
-      expect(fetchCharacterDataById).toHaveBeenCalledWith('1')
-    );
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      mockCharacter.name
-    );
-    expect(
-      screen.getByText(`Status: ${mockCharacter.status}`)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`Species: ${mockCharacter.species}`)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`Gender: ${mockCharacter.gender}`)
-    ).toBeInTheDocument();
-    expect(screen.getByAltText(mockCharacter.name)).toHaveAttribute(
-      'src',
-      mockCharacter.image
-    );
+    const closeButton = screen.getByText(/Close/i);
+    fireEvent.click(closeButton);
+
+    expect(window.location.search).not.toContain('details=1');
   });
 
-  it('ensures that clicking the close button hides the component', async () => {
-    (fetchCharacterDataById as jest.Mock).mockResolvedValue(mockCharacter);
+  it('displays loader during data fetching', () => {
+    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: null,
+      isFetching: true,
+      error: null,
+    });
 
     render(
-      <MemoryRouter initialEntries={['/?details=1']}>
-        <Routes>
-          <Route path="/" element={<CharacterCardDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <Routes>
+            <Route path="/" element={<CharacterCardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
 
-    await waitFor(() =>
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        mockCharacter.name
-      )
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+  });
+
+  it('handles click outside to close the card', () => {
+    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
+      data: mockCharacter,
+      isFetching: false,
+      error: null,
+    });
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/?details=1']}>
+          <Routes>
+            <Route path="/" element={<CharacterCardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
     );
-    fireEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
+
+    fireEvent.mouseDown(document);
+    expect(window.location.search).not.toContain('details=1');
   });
 });

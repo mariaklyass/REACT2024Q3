@@ -1,48 +1,103 @@
-import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import { vi } from 'vitest';
+import { SearchBarState } from 'src/utils/types';
 import SearchBar from './SearchBar';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import homeReducer, { setSearchQuery } from '../../slices/homeSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
 
-vi.mock('../../hooks/useLocalStorage', () => ({
-  default: vi.fn(),
+vi.mock('../../hooks/ReduxHooks', () => ({
+  useAppDispatch: vi.fn(),
+  useAppSelector: vi.fn(),
 }));
 
-describe('SearchBar Component', () => {
+const mockHandleSubmit = vi.fn();
+
+const createTestStore = () =>
+  configureStore({
+    reducer: {
+      home: homeReducer,
+    },
+  });
+
+describe('SearchBar component', () => {
+  let store: ReturnType<typeof createTestStore>;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    store = createTestStore();
+    (useAppSelector as jest.Mock).mockImplementation(
+      (selector: (state: SearchBarState) => unknown) =>
+        selector({
+          home: {
+            searchQuery: '',
+          },
+        })
+    );
   });
 
-  it('saves the entered value to the local storage when the Search button is clicked', () => {
-    let mockValue = '';
-    const setItemMock = vi.fn((newValue: string) => {
-      mockValue = newValue;
-    });
-    (useLocalStorage as jest.Mock).mockReturnValue([mockValue, setItemMock]);
+  it('renders the SearchBar component with initial state', () => {
+    render(
+      <Provider store={store}>
+        <SearchBar handleSubmit={mockHandleSubmit} />
+      </Provider>
+    );
 
-    const handleSubmit = vi.fn();
-    const { rerender } = render(<SearchBar handleSubmit={handleSubmit} />);
+    expect(screen.getByPlaceholderText(/Search.../i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
+  });
 
-    const input = screen.getByPlaceholderText('Search...');
+  it('updates local state on input change', () => {
+    render(
+      <Provider store={store}>
+        <SearchBar handleSubmit={mockHandleSubmit} />
+      </Provider>
+    );
+
+    const input = screen.getByPlaceholderText(/Search.../i);
+
+    fireEvent.change(input, { target: { value: 'Rick' } });
+    expect(input.value).toBe('Rick');
+  });
+
+  it('dispatches search query and calls handleSubmit on form submission', () => {
+    const dispatch = vi.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
+
+    render(
+      <Provider store={store}>
+        <SearchBar handleSubmit={mockHandleSubmit} />
+      </Provider>
+    );
+
+    const input = screen.getByPlaceholderText(/Search.../i);
     const searchButton = screen.getByText('Search');
 
-    fireEvent.change(input, { target: { value: 'test query' } });
-    (useLocalStorage as jest.Mock).mockReturnValue(['test query', setItemMock]);
-    rerender(<SearchBar handleSubmit={handleSubmit} />);
-
+    fireEvent.change(input, { target: { value: 'Rick' } });
     fireEvent.click(searchButton);
 
-    expect(setItemMock).toHaveBeenCalledWith('test query');
-    expect(handleSubmit).toHaveBeenCalledWith('test query');
+    expect(dispatch).toHaveBeenCalledWith(setSearchQuery('Rick'));
+    expect(mockHandleSubmit).toHaveBeenCalledWith('Rick');
   });
 
-  it('retrieves the value from the local storage upon mounting', () => {
-    (useLocalStorage as jest.Mock).mockReturnValue(['saved query', vi.fn()]);
+  it('trims the search query before dispatching and submitting', () => {
+    const dispatch = vi.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
 
-    const handleSubmit = vi.fn();
-    render(<SearchBar handleSubmit={handleSubmit} />);
+    render(
+      <Provider store={store}>
+        <SearchBar handleSubmit={mockHandleSubmit} />
+      </Provider>
+    );
 
-    const input = screen.getByPlaceholderText('Search...');
-    expect(input).toHaveValue('saved query');
+    const input = screen.getByPlaceholderText(/Search.../i);
+    const searchButton = screen.getByText('Search');
+
+    fireEvent.change(input, { target: { value: '  Morty  ' } });
+    fireEvent.click(searchButton);
+
+    expect(dispatch).toHaveBeenCalledWith(setSearchQuery('Morty'));
+    expect(mockHandleSubmit).toHaveBeenCalledWith('Morty');
   });
 });

@@ -1,20 +1,22 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import './SearchBar.css';
 import { SearchBarProps } from '../../utils/types';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
+import { setSearchQuery } from '../../slices/homeSlice';
 
 function SearchBar({ handleSubmit }: SearchBarProps) {
-  const [searchQuery, setSearchQuery] = useLocalStorage('searchQuery', '');
+  const dispatch = useAppDispatch();
+  const searchQuery = useAppSelector(state => state.home.searchQuery);
+  const [localQuery, setLocalQuery] = useState(searchQuery);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchQuery(value);
+    setLocalQuery(e.target.value);
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedQuery = searchQuery.trim();
-    setSearchQuery(trimmedQuery);
+    const trimmedQuery = localQuery.trim();
+    dispatch(setSearchQuery(trimmedQuery));
     handleSubmit(trimmedQuery);
   };
 
@@ -23,7 +25,7 @@ function SearchBar({ handleSubmit }: SearchBarProps) {
       <form onSubmit={onSubmit}>
         <input
           type="text"
-          value={searchQuery}
+          value={localQuery}
           onChange={handleChange}
           placeholder="Search..."
         />

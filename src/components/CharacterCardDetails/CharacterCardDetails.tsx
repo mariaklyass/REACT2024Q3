@@ -1,49 +1,62 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './CharacterCardDetails.css';
-import { useState, useEffect } from 'react';
-import { Character } from '../../utils/types';
+import { useEffect, useRef } from 'react';
 import Loader from '../UtilityComponents/Loader';
-import { fetchCharacterDataById } from '../../utils/api';
 import FallbackUI from '../UtilityComponents/FallbackUI';
+import { useFetchCharacterByIdQuery } from '../../slices/apiSlice';
 
 function CharacterCardDetails() {
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('details');
 
-  useEffect(() => {
-    if (id) {
-      setLoading(true);
-      fetchCharacterDataById(id)
-        .then(data => {
-          setCharacter(data);
-        })
-        .catch(error => {
-          console.error(error);
-          <FallbackUI />;
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setCharacter(null);
-    }
-  }, [id]);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
     searchParams.delete('details');
     navigate({ search: searchParams.toString() });
   };
 
-  if (loading) {
+  const {
+    data: character,
+    error,
+    isFetching,
+  } = useFetchCharacterByIdQuery(id!, { skip: !id });
+
+  useEffect(() => {
+    if (!id) {
+      navigate('/');
+    }
+  }, [id, navigate]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(event.target as Node)) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  if (!id) return null;
+
+  if (isFetching) {
     return <Loader />;
+  }
+
+  if (error) {
+    console.error(error);
+    return <FallbackUI />;
   }
 
   return (
     character && (
-      <>
+      <div ref={cardRef} className="character-card-details">
         <button type="button" onClick={handleClose}>
           Close
         </button>
@@ -52,7 +65,7 @@ function CharacterCardDetails() {
         <p>Species: {character.species}</p>
         <p>Gender: {character.gender}</p>
         <img src={character.image} alt={character.name} />
-      </>
+      </div>
     )
   );
 }

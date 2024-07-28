@@ -56,7 +56,7 @@ describe('Home component', () => {
   it('renders the Home component with initial state', () => {
     (useFetchCharactersQuery as jest.Mock).mockReturnValue({
       data: { results: mockCharacters, info: { pages: 1 } },
-      isLoading: false,
+      isFetching: false,
       error: null,
     });
 
@@ -128,34 +128,10 @@ describe('Home component', () => {
     );
   });
 
-  // it('updates URL parameters based on pagination changes', () => {
-  //   (useFetchCharactersQuery as jest.Mock).mockReturnValue({
-  //     data: { results: [], info: { pages: 2 } },
-  //     isLoading: false,
-  //     error: null,
-  //   });
-
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter initialEntries={['/']}>
-  //         <Routes>
-  //           <Route path="/" element={<Home />} />
-  //         </Routes>
-  //       </MemoryRouter>
-  //     </Provider>
-  //   );
-
-  //   const nextPageButton = screen.getByRole('button', { name: /next/i });
-
-  //   fireEvent.click(nextPageButton);
-
-  //   expect(window.location.search).toContain('page=2');
-  // });
-
   it('displays loader during data fetching', () => {
     (useFetchCharactersQuery as jest.Mock).mockReturnValue({
       data: null,
-      isLoading: true,
+      isFetching: true,
       error: null,
     });
 
@@ -175,7 +151,7 @@ describe('Home component', () => {
   it('handles API errors gracefully', () => {
     (useFetchCharactersQuery as jest.Mock).mockReturnValue({
       data: null,
-      isLoading: false,
+      isFetching: false,
       error: 'API Error',
     });
 

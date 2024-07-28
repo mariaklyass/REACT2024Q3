@@ -6,7 +6,11 @@ import Loader from '../UtilityComponents/Loader';
 import Pagination from '../UtilityComponents/Pagination';
 import { useFetchCharactersQuery } from '../../slices/apiSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
-import { setSearchQuery, setCurrentPage } from '../../slices/homeSlice';
+import {
+  setSearchQuery,
+  setCurrentPage,
+  setCharacters,
+} from '../../slices/homeSlice';
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -14,13 +18,14 @@ function Home() {
   const navigate = useNavigate();
   const searchQuery = useAppSelector(state => state.home.searchQuery);
   const currentPage = useAppSelector(state => state.home.currentPage);
+  const characters = useAppSelector(state => state.home.characters);
 
   const getPageFromQuery = () => {
     const params = new URLSearchParams(location.search);
     return parseInt(params.get('page') || '1', 10);
   };
 
-  const { data, error, isLoading } = useFetchCharactersQuery({
+  const { data, error, isFetching } = useFetchCharactersQuery({
     name: searchQuery,
     page: currentPage,
   });
@@ -36,6 +41,14 @@ function Home() {
   }, [location.search, dispatch]);
 
   useEffect(() => {
+    if (data) {
+      dispatch(setCharacters(data.results));
+    } else if (error) {
+      dispatch(setCharacters([]));
+    }
+  }, [data, error, dispatch]);
+
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set('page', currentPage.toString());
     navigate({ search: params.toString() });
@@ -44,13 +57,13 @@ function Home() {
   return (
     <div className="main-page">
       <SearchBar handleSubmit={handleFetchResults} />
-      {isLoading ? (
+      {isFetching ? (
         <Loader />
       ) : (
         <>
           <h1>All Characters</h1>
           <CharacterList
-            results={data?.results || []}
+            results={characters || []}
             error={error ?? null}
             currentPage={currentPage}
           />
