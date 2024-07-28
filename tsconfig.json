@@ -28,7 +28,7 @@
     "types": ["vitest/globals"]
   },
   "include": [
-    "src",
+    "src/**/*",
     ".prettierrc",
     "eslint-plugin-react-compiler.d.ts",
     "eslint-plugin-react.d.ts",

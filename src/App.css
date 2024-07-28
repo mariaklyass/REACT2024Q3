@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: start;
+  background-color: var(--background);
 }
 
 .sidebar {
@@ -93,9 +94,25 @@ button:focus-visible {
 }
 
 .main-page {
+  margin-top: 1rem;
   display: flex;
   .left-section,
   .right-section {
     flex: 1;
   }
+}
+
+.current-theme-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 15px;
+  border-color: var(--primary);
+}
+.theme-icon {
+  width: 60px;
 }

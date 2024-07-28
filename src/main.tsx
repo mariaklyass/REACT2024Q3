@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
 import './App.css';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from './context/ThemeContext';
 import App from './App';
 import ErrorPage from './components/UtilityComponents/ErrorPage';
 import CharacterCardDetails from './components/CharacterCardDetails/CharacterCardDetails';
@@ -27,7 +27,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );
