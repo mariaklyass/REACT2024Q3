@@ -42,8 +42,8 @@ describe('Button Component', () => {
 
     const button = screen.getByText('Click Me');
     expect(button).toHaveStyle({
-      '--primary': Color.VIOLET,
-      '--secondary': Color.DARK_VIOLET,
+      '--primary': Color.DARK_VIOLET,
+      '--secondary': Color.GREEN,
       '--background': Color.LIGHT_GRAY,
       '--white': Color.WHITE,
     });

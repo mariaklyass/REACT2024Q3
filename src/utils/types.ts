@@ -110,10 +110,12 @@ export type ButtonType = 'primary' | 'secondary';
 export type ThemeType = 'dark' | 'light';
 export enum Color {
   WHITE = '#fff',
-  DARK_GRAY = '#f4f4f4',
+  DARK_GRAY = '#242424',
   LIGHT_GRAY = '#EFEAE9',
   VIOLET = '#DCCAEE',
   DARK_VIOLET = '#49355B',
+  YELLOW = '#FDF1D6',
+  GREEN = '#2F4032',
 }
 export interface Theme {
   '--primary': Color;
@@ -123,14 +125,14 @@ export interface Theme {
 }
 export const THEMES: Record<ThemeType, Theme> = {
   light: {
-    '--primary': Color.VIOLET,
-    '--secondary': Color.DARK_VIOLET,
+    '--primary': Color.DARK_VIOLET,
+    '--secondary': Color.GREEN,
     '--background': Color.LIGHT_GRAY,
     '--white': Color.WHITE,
   },
   dark: {
     '--primary': Color.VIOLET,
-    '--secondary': Color.WHITE,
+    '--secondary': Color.YELLOW,
     '--background': Color.DARK_GRAY,
     '--white': Color.WHITE,
   },

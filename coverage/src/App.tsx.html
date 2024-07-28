@@ -128,7 +128,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -156,6 +155,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -178,7 +178,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { Outlet } from 'react-router-dom';</span></span></span>
 <span class="cstat-no" title="statement not covered" >import ErrorBoundary from './components/UtilityComponents/ErrorBoundary';</span>
 <span class="cstat-no" title="statement not covered" >import FallbackUI from './components/UtilityComponents/FallbackUI';</span>
-<span class="cstat-no" title="statement not covered" >import ErrorTrigger from './components/UtilityComponents/ErrorTrigger';</span>
 <span class="cstat-no" title="statement not covered" >import './App.css';</span>
 <span class="cstat-no" title="statement not covered" >import Home from './components/Home/Home';</span>
 <span class="cstat-no" title="statement not covered" >import Button from './components/UtilityComponents/Button/Button';</span>
@@ -191,44 +190,45 @@
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  const themeIcon = themeType === 'light' ? themeLight : themeDark;</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ErrorBoundary fallback={&lt;FallbackUI /&gt;}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ErrorTrigger /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >            type="primary"</span>
-<span class="cstat-no" title="statement not covered" >            theme={theme}</span>
-<span class="cstat-no" title="statement not covered" >            onClick={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              setCurrentTheme('light');</span>
-<span class="cstat-no" title="statement not covered" >            }}</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-            Light
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >            type="secondary"</span>
-<span class="cstat-no" title="statement not covered" >            theme={theme}</span>
-<span class="cstat-no" title="statement not covered" >            onClick={() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >              setCurrentTheme('dark');</span>
-<span class="cstat-no" title="statement not covered" >            }}</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-            Dark
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="main" style={{ ...(theme as React.CSSProperties) }}&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;ErrorBoundary fallback={&lt;FallbackUI /&gt;}&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;section className="theme-toggle"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="theme-btns"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >              type="primary"</span>
+<span class="cstat-no" title="statement not covered" >              theme={theme}</span>
+<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setCurrentTheme('light');</span>
+<span class="cstat-no" title="statement not covered" >              }}</span>
+<span class="cstat-no" title="statement not covered" >            &gt;</span>
+              Light
+<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >              type="secondary"</span>
+<span class="cstat-no" title="statement not covered" >              theme={theme}</span>
+<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setCurrentTheme('dark');</span>
+<span class="cstat-no" title="statement not covered" >              }}</span>
+<span class="cstat-no" title="statement not covered" >            &gt;</span>
+              Dark
+<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="current-theme-msg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            {' '}</span>
+<span class="cstat-no" title="statement not covered" >            &lt;p&gt;The current theme is: &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;img src={themeIcon} alt="theme icon" className="theme-icon" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;/section&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="app"&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="sidebar"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Home /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;div className="detail"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            &lt;Outlet /&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="current-theme-msg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          {' '}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p&gt;The current theme is: &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;img src={themeIcon} alt="theme icon" className="theme-icon" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/section&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="app" style={{ ...(theme as React.CSSProperties) }}&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="sidebar"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Home /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="detail"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Outlet /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ErrorBoundary&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/ErrorBoundary&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
   );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
@@ -238,7 +238,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-28T19:33:28.324Z
+                at 2024-07-28T20:47:55.840Z
             </div>
         <script src="../prettify.js"></script>
         <script>

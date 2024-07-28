@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks/ReduxHooks';
 import { unselectAll } from '../../../slices/selectedSlice';
 import downloadCsv from '../../../utils/downloader';
+import './Flyout.css';
 
 function Flyout() {
   const dispatch = useAppDispatch();

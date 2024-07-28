@@ -30,8 +30,9 @@ function CharacterList({ results, error, currentPage }: CharacterListProps) {
   }
 
   const searchResults = results.map(result => (
-    <div key={result.id}>
+    <div key={result.id} className="character">
       <input
+        className="checkbox"
         type="checkbox"
         checked={isSelected(result)}
         onChange={() => toggleCheckbox(result)}
