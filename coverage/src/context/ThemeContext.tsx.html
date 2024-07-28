@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/utils/test-utils.tsx</title>
+    <title>Code coverage report for src/context/ThemeContext.tsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> test-utils.tsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/context</a> ThemeContext.tsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -80,12 +80,27 @@
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
-<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -93,27 +108,42 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { cleanup, render } from '@testing-library/react';</span></span></span>
-<span class="cstat-no" title="statement not covered" >import { afterEach } from 'vitest';</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { createContext, useState, useContext, ReactNode, useMemo } from 'react';</span></span></span>
+<span class="cstat-no" title="statement not covered" >import { THEMES, ThemeContextProps, ThemeType } from '../utils/types';</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >afterEach(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  cleanup();</span>
+<span class="cstat-no" title="statement not covered" >export const ThemeContext = createContext&lt;ThemeContextProps&gt;({</span>
+<span class="cstat-no" title="statement not covered" >  themeType: 'light',</span>
+<span class="cstat-no" title="statement not covered" >  theme: THEMES.light,</span>
+<span class="cstat-no" title="statement not covered" >  setCurrentTheme: () =&gt; {},</span>
 <span class="cstat-no" title="statement not covered" >});</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >function customRender(ui: React.ReactElement, options = {}) {</span>
-<span class="cstat-no" title="statement not covered" >  return render(ui, {</span>
-<span class="cstat-no" title="statement not covered" >    wrapper: ({ children }) =&gt; children,</span>
-<span class="cstat-no" title="statement not covered" >    ...options,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >export function ThemeProvider({ children }: { children: ReactNode }) {</span>
+<span class="cstat-no" title="statement not covered" >  const [currentTheme, setCurrentTheme] = useState&lt;ThemeType&gt;('light');</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const value = useMemo(</span>
+<span class="cstat-no" title="statement not covered" >    () =&gt; ({</span>
+<span class="cstat-no" title="statement not covered" >      themeType: currentTheme,</span>
+<span class="cstat-no" title="statement not covered" >      theme: THEMES[currentTheme],</span>
+<span class="cstat-no" title="statement not covered" >      setCurrentTheme,</span>
+<span class="cstat-no" title="statement not covered" >    }),</span>
+<span class="cstat-no" title="statement not covered" >    [currentTheme]</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ThemeContext.Provider value={value}&gt;{children}&lt;/ThemeContext.Provider&gt;</span>
+  );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export * from '@testing-library/react';</span>
-export { default as userEvent } from '@testing-library/user-event';
-export { customRender as render };
+<span class="cstat-no" title="statement not covered" >export const useTheme = () =&gt; useContext(ThemeContext);</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
