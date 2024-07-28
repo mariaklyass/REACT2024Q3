@@ -3,34 +3,10 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { vi } from 'vitest';
-import { Character } from 'src/utils/types';
+import { mockResults } from '../../utils/constants';
 import CharacterCardDetails from './CharacterCardDetails';
 import { useFetchCharacterByIdQuery } from '../../slices/apiSlice';
 import homeReducer from '../../slices/homeSlice';
-
-const mockCharacter: Character = {
-  id: 1,
-  name: 'Rick Sanchez',
-  status: 'Alive',
-  species: 'Human',
-  type: '',
-  gender: 'Male',
-  origin: {
-    name: 'Earth',
-    url: 'https://rickandmortyapi.com/api/location/1',
-  },
-  location: {
-    name: 'Earth',
-    url: 'https://rickandmortyapi.com/api/location/20',
-  },
-  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-  episode: [
-    'https://rickandmortyapi.com/api/episode/1',
-    'https://rickandmortyapi.com/api/episode/2',
-  ],
-  url: 'https://rickandmortyapi.com/api/character/1',
-  created: '2017-11-04T18:48:46.250Z',
-};
 
 vi.mock('../../slices/apiSlice', () => ({
   useFetchCharacterByIdQuery: vi.fn(),
@@ -53,7 +29,7 @@ describe('CharacterCardDetails component', () => {
 
   it('renders the CharacterCardDetails component with initial state', () => {
     (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
-      data: mockCharacter,
+      data: mockResults[0],
       isFetching: false,
       error: null,
     });
@@ -73,7 +49,7 @@ describe('CharacterCardDetails component', () => {
 
   it('handles closing the character card', () => {
     (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
-      data: mockCharacter,
+      data: mockResults[0],
       isFetching: false,
       error: null,
     });
@@ -116,7 +92,7 @@ describe('CharacterCardDetails component', () => {
 
   it('handles click outside to close the card', () => {
     (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
-      data: mockCharacter,
+      data: mockResults[0],
       isFetching: false,
       error: null,
     });

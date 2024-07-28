@@ -11,6 +11,7 @@ import {
   setCurrentPage,
   setCharacters,
 } from '../../slices/homeSlice';
+import Flyout from '../UtilityComponents/Flyout/Flyout';
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -39,12 +40,6 @@ function Home() {
   };
 
   useEffect(() => {
-    const { query, page } = getQueryParams();
-    dispatch(setCurrentPage(page));
-    dispatch(setSearchQuery(query));
-  }, [location.search, dispatch]);
-
-  useEffect(() => {
     if (data) {
       dispatch(setCharacters(data.results));
     } else if (error) {
@@ -53,13 +48,19 @@ function Home() {
   }, [data, error, dispatch]);
 
   useEffect(() => {
+    const { query, page } = getQueryParams();
+    dispatch(setCurrentPage(page));
+    dispatch(setSearchQuery(query));
+  }, [location.search, dispatch]);
+
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set('page', currentPage.toString());
     if (searchQuery) {
       params.set('query', searchQuery);
     }
     navigate({ search: params.toString() });
-  }, [currentPage, searchQuery, navigate, location.search]);
+  }, [currentPage, searchQuery, navigate]);
 
   return (
     <div className="main-page">
@@ -81,6 +82,7 @@ function Home() {
         totalPages={data?.info?.pages || 1}
         setCurrentPage={page => dispatch(setCurrentPage(page))}
       />
+      <Flyout />
     </div>
   );
 }

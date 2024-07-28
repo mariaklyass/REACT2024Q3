@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
+import { mockCharacter } from '../../utils/constants';
 import CharacterCard from './CharacterCard';
 import CharacterCardDetails from '../CharacterCardDetails/CharacterCardDetails';
 import homeReducer from '../../slices/homeSlice';
@@ -19,13 +20,6 @@ const createTestStore = () =>
 vi.mock('../../slices/apiSlice', () => ({
   useFetchCharacterByIdQuery: vi.fn(),
 }));
-
-const mockCharacter = {
-  name: 'Rick Sanchez',
-  status: 'Alive' as 'Alive' | 'Dead' | 'unknown',
-  species: 'Human',
-  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-};
 
 describe('Card Component', () => {
   let store: ReturnType<typeof createTestStore>;

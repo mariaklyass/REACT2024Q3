@@ -2,41 +2,48 @@ import { it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import { MockState } from 'src/utils/types';
+import { mockResults } from '../../utils/constants';
 import CharacterList from './CharacterList';
-import { Character } from '../../utils/types';
+import selectedReducer from '../../slices/selectedSlice';
+import { useAppSelector } from '../../hooks/ReduxHooks';
+
+vi.mock('../../hooks/ReduxHooks', () => ({
+  useAppDispatch: vi.fn(),
+  useAppSelector: vi.fn(),
+}));
+
+const createTestStore = () =>
+  configureStore({
+    reducer: {
+      selected: selectedReducer,
+    },
+  });
 
 describe('HomePage', () => {
-  const mockResults: Character[] = [
-    {
-      id: 1,
-      name: 'Rick Sanchez',
-      status: 'Alive',
-      species: 'Human',
-      type: '',
-      gender: 'Male',
-      origin: {
-        name: 'Earth',
-        url: 'https://rickandmortyapi.com/api/location/1',
-      },
-      location: {
-        name: 'Earth',
-        url: 'https://rickandmortyapi.com/api/location/20',
-      },
-      image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-      episode: [
-        'https://rickandmortyapi.com/api/episode/1',
-        'https://rickandmortyapi.com/api/episode/2',
-      ],
-      url: 'https://rickandmortyapi.com/api/character/1',
-      created: '2017-11-04T18:48:46.250Z',
-    },
-  ];
+  let store: ReturnType<typeof createTestStore>;
+
+  beforeEach(() => {
+    store = createTestStore();
+    (useAppSelector as jest.Mock).mockImplementation(
+      (selector: (state: MockState) => unknown) =>
+        selector({
+          selected: {
+            selectedCharacters: [],
+          },
+        } as MockState)
+    );
+  });
 
   it('verifies there is a specified number of characters initially rendered on the Home page', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <CharacterList results={mockResults} error={null} currentPage={1} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <CharacterList results={mockResults} error={null} currentPage={1} />
+        </MemoryRouter>
+      </Provider>
     );
     const cards = screen.getAllByTestId('card-element');
     expect(cards.length).toBe(mockResults.length);
@@ -44,9 +51,11 @@ describe('HomePage', () => {
 
   it('displays an error message if no cards are present', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <CharacterList results={[]} error={null} currentPage={1} />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/']}>
+          <CharacterList results={[]} error={null} currentPage={1} />
+        </MemoryRouter>
+      </Provider>
     );
     const heading = screen.getByTestId('error-message');
     expect(heading).toBeInTheDocument();

@@ -3,7 +3,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ReactNode, Dispatch, SetStateAction } from 'react';
 
 export interface Character {
-  id?: number;
+  id: number;
   name: string;
   status: 'Alive' | 'Dead' | 'unknown';
   species: string;
@@ -90,6 +90,16 @@ export interface HomeSlice {
   searchQuery: string;
   currentPage: number;
   characters: Character[];
+}
+
+export interface SelectedState {
+  selectedCharacters: Character[];
+}
+
+export interface MockState {
+  selected: {
+    selectedCharacters: Character[];
+  };
 }
 
 export interface CharactersByPage {
