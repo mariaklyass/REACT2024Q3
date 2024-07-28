@@ -62,8 +62,12 @@ describe('SearchBar component', () => {
 
     const input = screen.getByPlaceholderText(/Search.../i);
 
-    fireEvent.change(input, { target: { value: 'Rick' } });
-    expect(input.value).toBe('Rick');
+    if (input instanceof HTMLInputElement) {
+      fireEvent.change(input, { target: { value: 'Rick' } });
+      expect(input.value).toBe('Rick');
+    } else {
+      throw new Error('Element is not an HTMLInputElement');
+    }
   });
 
   it('dispatches search query and calls handleSubmit on form submission', () => {
