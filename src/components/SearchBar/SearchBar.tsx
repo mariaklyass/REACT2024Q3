@@ -1,13 +1,19 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SearchBar.css';
 import { SearchBarProps } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
 import { setSearchQuery } from '../../slices/homeSlice';
 
 function SearchBar({ handleSubmit }: SearchBarProps) {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const searchQuery = useAppSelector(state => state.home.searchQuery);
   const [localQuery, setLocalQuery] = useState(searchQuery);
+
+  useEffect(() => {
+    setLocalQuery(searchQuery);
+  }, [searchQuery]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLocalQuery(e.target.value);
@@ -18,6 +24,13 @@ function SearchBar({ handleSubmit }: SearchBarProps) {
     const trimmedQuery = localQuery.trim();
     dispatch(setSearchQuery(trimmedQuery));
     handleSubmit(trimmedQuery);
+
+    const params = new URLSearchParams();
+    if (trimmedQuery) {
+      params.set('query', trimmedQuery);
+    }
+    params.set('page', '1');
+    navigate({ search: params.toString() });
   };
 
   return (

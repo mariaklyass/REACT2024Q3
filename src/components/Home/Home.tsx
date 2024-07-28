@@ -20,9 +20,12 @@ function Home() {
   const currentPage = useAppSelector(state => state.home.currentPage);
   const characters = useAppSelector(state => state.home.characters);
 
-  const getPageFromQuery = () => {
+  const getQueryParams = () => {
     const params = new URLSearchParams(location.search);
-    return parseInt(params.get('page') || '1', 10);
+    return {
+      query: params.get('query') || '',
+      page: parseInt(params.get('page') || '1', 10),
+    };
   };
 
   const { data, error, isFetching } = useFetchCharactersQuery({
@@ -36,8 +39,9 @@ function Home() {
   };
 
   useEffect(() => {
-    const page = getPageFromQuery();
+    const { query, page } = getQueryParams();
     dispatch(setCurrentPage(page));
+    dispatch(setSearchQuery(query));
   }, [location.search, dispatch]);
 
   useEffect(() => {
@@ -51,8 +55,11 @@ function Home() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     params.set('page', currentPage.toString());
+    if (searchQuery) {
+      params.set('query', searchQuery);
+    }
     navigate({ search: params.toString() });
-  }, [currentPage, navigate, location.search]);
+  }, [currentPage, searchQuery, navigate, location.search]);
 
   return (
     <div className="main-page">
