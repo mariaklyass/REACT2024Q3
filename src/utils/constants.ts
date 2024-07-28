@@ -51,6 +51,7 @@ export const mockResults: Character[] = [
 ];
 
 export const mockCharacter = {
+  id: 1,
   name: 'Rick Sanchez',
   status: 'Alive' as 'Alive' | 'Dead' | 'unknown',
   species: 'Human',
