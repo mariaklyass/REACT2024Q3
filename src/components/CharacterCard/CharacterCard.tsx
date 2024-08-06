@@ -1,17 +1,26 @@
-import './CharacterCard.css';
-import { CharacterCardProps } from '../../utils/types';
+import React from 'react';
 
-function CharacterCard({ character }: CharacterCardProps) {
-  const { name, status, species, image } = character;
+interface CharacterCardProps {
+  id: string;
+  name: string;
+  image: string;
+  onClick: (id: string) => void;
+}
 
+function CharacterCard({
+  id,
+  name,
+  image,
+  onClick,
+}: CharacterCardProps): JSX.Element {
   return (
-    <div className="card" data-testid="card-element">
+    <li className="card">
       <img src={image} alt={name} />
-      <h2>{name}</h2>
-      <p>
-        {status} - {species}
-      </p>
-    </div>
+      {name}
+      <button type="button" onClick={() => onClick(id)}>
+        Details
+      </button>
+    </li>
   );
 }
 
