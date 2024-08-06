@@ -1,12 +1,14 @@
+import { ReactNode } from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 
-export default function Layout({ children }) {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <div className="app">
-      {/* context switch */}
-      {/* search bar */}
       <SearchBar />
-      {/* main list */}
       {children}
     </div>
   );

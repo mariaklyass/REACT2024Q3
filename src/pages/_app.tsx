@@ -6,7 +6,9 @@ import './styles.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary
+      fallback={<div>Something went wrong. Please try again later.</div>}
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>
