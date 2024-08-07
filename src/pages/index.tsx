@@ -15,10 +15,6 @@ export default function MainPage({
   const { page = '1', search, details } = router.query;
   const currentPage = parseInt(page as string, 10);
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
   const handleCharacterClick = (id: string) => {
     const query = {
       page,
@@ -31,7 +27,7 @@ export default function MainPage({
   };
 
   return (
-    <div>
+    <div className="main">
       <div className="main-page">
         <CharactersList
           characters={characters}

@@ -1,12 +1,4 @@
-import {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useMemo,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import { createContext, useState, useContext, ReactNode, useMemo } from 'react';
 
 export type ThemeType = 'dark' | 'light';
 export enum Color {
@@ -39,25 +31,29 @@ export const THEMES: Record<ThemeType, Theme> = {
   },
 };
 export interface ThemeContextProps {
-  themeType: ThemeType;
+  currentTheme: ThemeType;
   theme: Theme;
-  setCurrentTheme: Dispatch<SetStateAction<ThemeType>>;
+  toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<ThemeContextProps>({
-  themeType: 'light',
+  currentTheme: 'light',
   theme: THEMES.light,
-  setCurrentTheme: () => {},
+  toggleTheme: () => {},
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<ThemeType>('light');
 
+  const toggleTheme = () => {
+    setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark');
+  };
+
   const value = useMemo(
     () => ({
-      themeType: currentTheme,
+      currentTheme,
       theme: THEMES[currentTheme],
-      setCurrentTheme,
+      toggleTheme,
     }),
     [currentTheme]
   );

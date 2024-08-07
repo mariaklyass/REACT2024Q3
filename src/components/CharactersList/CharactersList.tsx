@@ -32,6 +32,7 @@ function CharactersList({
       {characters.map(character => (
         <div key={character.id}>
           <input
+            className="checkbox"
             type="checkbox"
             checked={isSelected(character.id)}
             onChange={() => toggleCheckbox(character)}

@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Layout from 'src/components/Layout/Layout';
 import { wrapper } from 'src/store/store';
 import { MainPageProps } from 'src/lib/types';
+import { ThemeProvider } from 'src/context/ThemeContext';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import './styles.css';
 
@@ -15,9 +16,11 @@ function App({ Component, pageProps }: WrappedAppProps) {
     <ErrorBoundary
       fallback={<div>Something went wrong. Please try again later.</div>}
     >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
