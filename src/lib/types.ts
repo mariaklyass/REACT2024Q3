@@ -30,7 +30,7 @@ export interface Info {
 }
 export interface MainPageProps {
   characters: Character[];
-  info: Info;
+  info: ApiResponse['info'];
   error?: string;
   detailsData: Character | null;
 }

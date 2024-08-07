@@ -65,6 +65,7 @@ export default tseslint.config(
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
       'react/jsx-props-no-spreading': 'off',
+      'react/require-default-props': 'off',
     },
   },
   {

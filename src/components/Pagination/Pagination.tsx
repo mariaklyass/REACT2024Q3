@@ -50,9 +50,5 @@ function Pagination({
     </div>
   );
 }
-Pagination.defaultProps = {
-  search: '',
-  details: '',
-};
 
 export default Pagination;
