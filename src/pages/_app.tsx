@@ -1,9 +1,9 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
 import Layout from 'src/components/Layout/Layout';
-import { wrapper } from 'src/store/store';
 import { MainPageProps } from 'src/lib/types';
 import { ThemeProvider } from 'src/context/ThemeContext';
+import { wrapper } from '../store/store';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import './styles.css';
 

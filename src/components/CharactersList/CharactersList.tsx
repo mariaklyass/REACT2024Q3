@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectCharacter, unselectCharacter } from 'src/store/selectedSlice';
 import { Character } from 'src/lib/types';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectCharacter, unselectCharacter } from '../../store/selectedSlice';
 import CharacterCard from '../CharacterCard/CharacterCard';
 
 interface CharactersListProps {

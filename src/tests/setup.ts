@@ -1,6 +1,8 @@
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+/// <reference types="vitest/globals" />
+import '@testing-library/jest-dom';
+import { afterAll, afterEach, beforeAll } from 'vitest';
+import server from './msw/server';
 
-afterEach(() => {
-  cleanup();
-});
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());

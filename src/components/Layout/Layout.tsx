@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useTheme } from 'src/context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 import SearchBar from '../SearchBar/SearchBar';
 import Flyout from '../Flyout/Flyout';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';

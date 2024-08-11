@@ -14,7 +14,7 @@ function SearchBar(): JSX.Element {
   };
 
   return (
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSearch} data-testid="form">
       <input type="text" name="search" placeholder="Search characters" />
       <button type="submit">Search</button>
     </form>

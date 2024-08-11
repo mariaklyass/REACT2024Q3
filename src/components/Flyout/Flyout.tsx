@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { unselectAll } from 'src/store/selectedSlice';
-import downloadCsv from 'src/utils/downloader';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { unselectAll } from '../../store/selectedSlice';
+import downloadCsv from '../../utils/downloader';
 
 function Flyout() {
   const dispatch = useAppDispatch();

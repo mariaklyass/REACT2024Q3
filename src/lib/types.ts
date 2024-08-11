@@ -36,7 +36,7 @@ export interface MainPageProps {
 }
 
 export interface CharacterDetailsProps {
-  character: Character;
+  character: Character | null;
 }
 
 export interface CharacterListProps {
