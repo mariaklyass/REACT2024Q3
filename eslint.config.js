@@ -23,11 +23,10 @@ export default tseslint.config(
       '**/dist/**',
       '**/public/**',
       '**/node_modules/**',
-      'vite-env.d.ts',
       'eslint.config.js',
       'package.json',
       'tsconfig.json',
-      'vite.config.ts',
+      'next.config.mjs',
     ],
   },
 
@@ -65,6 +64,8 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
+      'react/jsx-props-no-spreading': 'off',
+      'react/require-default-props': 'off',
     },
   },
   {

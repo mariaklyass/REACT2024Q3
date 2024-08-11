@@ -1,11 +1,11 @@
-import { Character } from './types';
+import { Character } from 'src/lib/types';
 
 const downloadCsv = (characters: Character[]) => {
-  const headers = 'ID,Name,Status,Species\n';
+  const headers = 'ID,Name,Status,Species,Gender,Origin,Location\n';
   const rows = characters
     .map(
       character =>
-        `${character.id},${character.name},${character.status},${character.species}`
+        `${character.id},${character.name},${character.status},${character.species},${character.gender},${character.origin?.name},${character.location?.name}`
     )
     .join('\n');
 

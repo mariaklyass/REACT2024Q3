@@ -1,116 +1,28 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 import { vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { SearchBarState } from 'src/utils/types';
+import { useRouter } from 'next/router';
 import SearchBar from './SearchBar';
-import homeReducer, { setSearchQuery } from '../../slices/homeSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks/ReduxHooks';
 
-vi.mock('../../hooks/ReduxHooks', () => ({
-  useAppDispatch: vi.fn(),
-  useAppSelector: vi.fn(),
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
 }));
 
-const mockHandleSubmit = vi.fn();
+describe('SearchBar Component', () => {
+  it('should call router.push with the correct query on form submission', () => {
+    const pushMock = vi.fn(() => Promise.resolve());
+    (useRouter as jest.Mock).mockReturnValue({
+      push: pushMock,
+    });
 
-const createTestStore = () =>
-  configureStore({
-    reducer: {
-      home: homeReducer,
-    },
-  });
+    render(<SearchBar />);
 
-describe('SearchBar component', () => {
-  let store: ReturnType<typeof createTestStore>;
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-    store = createTestStore();
-    (useAppSelector as jest.Mock).mockImplementation(
-      (selector: (state: SearchBarState) => unknown) =>
-        selector({
-          home: {
-            searchQuery: '',
-          },
-        })
-    );
-  });
-
-  it('renders the SearchBar component with initial state', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SearchBar handleSubmit={mockHandleSubmit} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(screen.getByPlaceholderText(/Search.../i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
-  });
-
-  it('updates local state on input change', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SearchBar handleSubmit={mockHandleSubmit} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const input = screen.getByPlaceholderText(/Search.../i);
-
-    if (input instanceof HTMLInputElement) {
-      fireEvent.change(input, { target: { value: 'Rick' } });
-      expect(input.value).toBe('Rick');
-    } else {
-      throw new Error('Element is not an HTMLInputElement');
-    }
-  });
-
-  it('dispatches search query and calls handleSubmit on form submission', () => {
-    const dispatch = vi.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SearchBar handleSubmit={mockHandleSubmit} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const input = screen.getByPlaceholderText(/Search.../i);
-    const searchButton = screen.getByText('Search');
+    const input = screen.getByPlaceholderText('Search characters');
+    const button = screen.getByRole('button', { name: /search/i });
 
     fireEvent.change(input, { target: { value: 'Rick' } });
-    fireEvent.click(searchButton);
 
-    expect(dispatch).toHaveBeenCalledWith(setSearchQuery('Rick'));
-    expect(mockHandleSubmit).toHaveBeenCalledWith('Rick');
-  });
+    fireEvent.click(button);
 
-  it('trims the search query before dispatching and submitting', () => {
-    const dispatch = vi.fn();
-    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <SearchBar handleSubmit={mockHandleSubmit} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const input = screen.getByPlaceholderText(/Search.../i);
-    const searchButton = screen.getByText('Search');
-
-    fireEvent.change(input, { target: { value: '  Morty  ' } });
-    fireEvent.click(searchButton);
-
-    expect(dispatch).toHaveBeenCalledWith(setSearchQuery('Morty'));
-    expect(mockHandleSubmit).toHaveBeenCalledWith('Morty');
+    expect(pushMock).toHaveBeenCalledWith('/?page=1&search=Rick');
   });
 });

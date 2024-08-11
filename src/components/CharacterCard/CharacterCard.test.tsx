@@ -1,81 +1,42 @@
-import { it, expect, describe, vi } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import { MemoryRouter } from 'react-router-dom';
-import { mockCharacter } from '../../utils/constants';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import CharacterCard from './CharacterCard';
-import CharacterCardDetails from '../CharacterCardDetails/CharacterCardDetails';
-import homeReducer from '../../slices/homeSlice';
-import { useFetchCharacterByIdQuery } from '../../slices/apiSlice';
 
-const createTestStore = () =>
-  configureStore({
-    reducer: {
-      home: homeReducer,
-    },
+describe('CharacterCard', () => {
+  it('renders correctly with given props', () => {
+    const props = {
+      id: '1',
+      name: 'Rick Sanchez',
+      image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+      onClick: vi.fn(),
+    };
+
+    render(<CharacterCard {...props} />);
+
+    const img = screen.getByAltText('Rick Sanchez');
+    expect(img).toBeInTheDocument();
+    expect(img).toHaveAttribute('src', props.image);
+
+    const name = screen.getByText('Rick Sanchez');
+    expect(name).toBeInTheDocument();
+
+    const button = screen.getByText('Details');
+    expect(button).toBeInTheDocument();
   });
 
-vi.mock('../../slices/apiSlice', () => ({
-  useFetchCharacterByIdQuery: vi.fn(),
-}));
+  it('calls onClick with the correct id when button is clicked', () => {
+    const props = {
+      id: '1',
+      name: 'Rick Sanchez',
+      image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+      onClick: vi.fn(),
+    };
 
-describe('Card Component', () => {
-  let store: ReturnType<typeof createTestStore>;
+    render(<CharacterCard {...props} />);
 
-  beforeEach(() => {
-    store = createTestStore();
-    vi.clearAllMocks();
-  });
+    const button = screen.getByText('Details');
+    fireEvent.click(button);
 
-  it('CharacterCard renders correctly with mock data', () => {
-    render(
-      <Provider store={store}>
-        <CharacterCard character={mockCharacter} />
-      </Provider>
-    );
-
-    expect(screen.getByTestId('card-element')).toBeInTheDocument();
-    expect(screen.getByAltText(mockCharacter.name)).toHaveAttribute(
-      'src',
-      mockCharacter.image
-    );
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      mockCharacter.name
-    );
-    expect(
-      screen.getByText(`${mockCharacter.status} - ${mockCharacter.species}`)
-    ).toBeInTheDocument();
-  });
-
-  it('validates that clicking on a card opens a detailed card component', () => {
-    (useFetchCharacterByIdQuery as jest.Mock).mockReturnValue({
-      data: mockCharacter,
-      isFetching: false,
-      error: null,
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
-          <CharacterCard character={mockCharacter} />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    fireEvent.click(screen.getByTestId('card-element'));
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['/?details=1']}>
-          <CharacterCardDetails />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      mockCharacter.name
-    );
+    expect(props.onClick).toHaveBeenCalledWith(props.id);
   });
 });
