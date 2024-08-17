@@ -1,10 +1,3 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import globals from 'globals';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import eslintPluginReactCompiler from 'eslint-plugin-react-compiler';
-import eslintPluginReact from 'eslint-plugin-react';
-
 import { FlatCompat } from '@eslint/eslintrc';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,60 +9,39 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-export default tseslint.config(
-  {
-    ignores: [
-      '**/build/**',
-      '**/dist/**',
-      '**/public/**',
-      '**/node_modules/**',
-      'eslint.config.js',
-      'package.json',
-      'tsconfig.json',
-      'next.config.mjs',
-    ],
+export default {
+  ignores: [
+    '**/build/**',
+    '**/dist/**',
+    '**/public/**',
+    '**/node_modules/**',
+    'vite-env.d.ts',
+    'eslint.config.js',
+    'package.json',
+    'tsconfig.json',
+    'vite.config.ts',
+  ],
+  extends: [
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+  parserOptions: {
+    project: ['./tsconfig.json'],
   },
-
-  eslint.configs.recommended,
-  ...compat.extends('airbnb'),
-  ...compat.extends('airbnb-typescript'),
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintConfigPrettier,
-  {
-    plugins: {
-      '@typescript-eslint': tseslint.plugin,
-      react: eslintPluginReact,
-      'react-compiler': eslintPluginReactCompiler,
-    },
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2020,
-      },
-      parserOptions: {
-        project: ['./tsconfig.json'],
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unsafe-argument': 'error',
-      '@typescript-eslint/no-unsafe-assignment': 'error',
-      '@typescript-eslint/no-unsafe-call': 'error',
-      '@typescript-eslint/no-unsafe-member-access': 'error',
-      '@typescript-eslint/no-unsafe-return': 'error',
-      'react-compiler/react-compiler': 'error',
-      'react/react-in-jsx-scope': 'off',
-      'react/prefer-stateless-function': 'off',
-      'react/prop-types': 'off',
-      'no-console': 'off',
-      'import/no-extraneous-dependencies': 'off',
-      'react/jsx-props-no-spreading': 'off',
-      'react/require-default-props': 'off',
-    },
+  rules: {
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-unsafe-argument': 'error',
+    '@typescript-eslint/no-unsafe-assignment': 'error',
+    '@typescript-eslint/no-unsafe-call': 'error',
+    '@typescript-eslint/no-unsafe-member-access': 'error',
+    '@typescript-eslint/no-unsafe-return': 'error',
+    'react/react-in-jsx-scope': 'off',
+    'react/prefer-stateless-function': 'off',
+    'react/prop-types': 'off',
+    'no-console': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
-  {
-    files: ['**/*.js'],
-    ...tseslint.configs.disableTypeChecked,
-  }
-);
+};

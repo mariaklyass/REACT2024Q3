@@ -6,10 +6,7 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": { "@reduxjs/toolkit": ["node_modules/@reduxjs/toolkit/"] },
 
     // Bundler mode
     "moduleResolution": "bundler",
@@ -18,10 +15,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
-    "incremental": true,
-    "allowJs": true,
+    "jsx": "react-jsx",
 
     // Linting
     "strict": true,
@@ -29,21 +23,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "types": ["vitest/globals"],
-    "forceConsistentCasingInFileNames": true
+    "types": ["vitest/globals"]
   },
-
   "include": [
-    "src/**/*",
+    "src",
     ".prettierrc",
     "eslint-plugin-react-compiler.d.ts",
     "eslint-plugin-react.d.ts",
-    "src/tests/setup.ts",
-    "next.config.mjs",
-    "vitest.config.ts",
-    "./pages",
-    "./dist/types/**/*.ts",
-    "./next-env.d.ts"
-  ],
-  "exclude": ["./node_modules"]
+    "vite.config.ts",
+    "src/tests/setup.ts"
+  ]
 }
