@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 interface PaginationProps {
   currentPage: number;
@@ -17,13 +19,11 @@ function Pagination({
 
   const handlePageChange = (page: number) => {
     const query = {
-      page,
+      page: String(page),
       ...(search && { search }),
       ...(details && { details }),
     };
-    router.push({ pathname: '/', query }).catch(error => {
-      console.error('Failed to navigate:', error);
-    });
+    router.push(`/?${new URLSearchParams(query).toString()}`);
   };
 
   return (

@@ -108,7 +108,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 100%;
   background: rgba(64, 86, 105, 0.2);
   border-radius: 16px;

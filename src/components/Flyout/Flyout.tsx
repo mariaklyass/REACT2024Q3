@@ -1,9 +1,14 @@
+'use client';
+
 import { useMemo } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { unselectAll } from '../../store/selectedSlice';
 import downloadCsv from '../../utils/downloader';
 
 function Flyout() {
+  const { theme } = useTheme();
+
   const dispatch = useAppDispatch();
   const selectedCharacters = useAppSelector(
     state => state.selected.selectedCharacters
@@ -23,7 +28,7 @@ function Flyout() {
   };
 
   return (
-    <div className="flyout">
+    <div className="flyout" style={{ ...(theme as React.CSSProperties) }}>
       <p>{`${selectedCharacters.length} items selected`}</p>
       <button type="button" onClick={handleUnselectAll}>
         Unselect All

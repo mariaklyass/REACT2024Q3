@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 function SearchBar(): JSX.Element {
   const router = useRouter();
@@ -8,9 +10,10 @@ function SearchBar(): JSX.Element {
     const query = (event.target as HTMLFormElement).elements.namedItem(
       'search'
     ) as HTMLInputElement;
-    router.push(`/?page=1&search=${query.value}`).catch(error => {
-      console.error('Failed to navigate:', error);
-    });
+    const searchTerm = query.value.trim();
+    if (searchTerm) {
+      router.push(`/?page=1&search=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   return (

@@ -1,10 +1,10 @@
 import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Pagination from './Pagination';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
 }));
 

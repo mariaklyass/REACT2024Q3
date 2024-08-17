@@ -1,23 +1,24 @@
-import { useRouter } from 'next/router';
-import { CharacterDetailsProps } from 'src/lib/types';
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+import { CharacterDetailsProps } from '../../lib/types';
+import { useTheme } from '../../context/ThemeContext';
 
 function CharacterDetails({ character }: CharacterDetailsProps) {
   const router = useRouter();
-  const { page, search } = router.query;
-
+  const searchParams = useSearchParams();
+  const handleClose = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('details');
+    router.push(`/?${params.toString()}`);
+  };
+  const { theme } = useTheme();
   if (!character) {
     return null;
   }
 
-  const handleClose = () => {
-    const query = { page, ...(search && { search }) };
-    router.push({ pathname: '/', query }).catch(error => {
-      console.error('Failed to navigate:', error);
-    });
-  };
-
   return (
-    <div className="details">
+    <div className="details" style={{ ...(theme as React.CSSProperties) }}>
       <div className="details-card">
         <button type="button" onClick={handleClose} className="close-button">
           Close

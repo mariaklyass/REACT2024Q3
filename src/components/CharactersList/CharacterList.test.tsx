@@ -11,14 +11,18 @@ import selectedReducer, {
 import { mockCharacters } from '../../utils/mocks';
 import renderWithProviders from '../../tests/renderWithProviders';
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+  }),
+}));
+
 vi.mock('../../store/hooks', () => ({
   useAppDispatch: () => vi.fn(),
   useAppSelector: vi.fn(),
 }));
 
 describe('CharactersList', () => {
-  const mockOnCharacterClick = vi.fn();
-
   beforeEach(() => {
     vi.resetAllMocks();
   });
@@ -31,12 +35,7 @@ describe('CharactersList', () => {
   it('should render the correct number of characters', () => {
     (useAppSelector as jest.Mock).mockReturnValue([]);
 
-    renderWithProviders(
-      <CharactersList
-        characters={characters}
-        onCharacterClick={mockOnCharacterClick}
-      />
-    );
+    renderWithProviders(<CharactersList characters={characters} />);
 
     expect(screen.getAllByRole('checkbox')).toHaveLength(characters.length);
     expect(screen.getAllByRole('img')).toHaveLength(characters.length);
@@ -48,7 +47,7 @@ describe('CharactersList', () => {
     );
   });
 
-  it('should select a character when a CharacterCard is clicked', () => {
+  it('should select a character when a checkbox is clicked', () => {
     const character: Character = characters[0];
     const actual = selectedReducer(initialState, selectCharacter(character));
     expect(actual.selectedCharacters).toEqual([character]);

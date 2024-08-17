@@ -1,18 +1,17 @@
+'use client';
+
 import React from 'react';
-import { Character } from 'src/lib/types';
+import { useRouter } from 'next/navigation';
+import { Character } from '../../lib/types';
+import { useTheme } from '../../context/ThemeContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectCharacter, unselectCharacter } from '../../store/selectedSlice';
-import CharacterCard from '../CharacterCard/CharacterCard';
 
 interface CharactersListProps {
   characters: Character[];
-  onCharacterClick: (id: string) => void;
 }
 
-function CharactersList({
-  characters,
-  onCharacterClick,
-}: CharactersListProps): JSX.Element {
+function CharactersList({ characters }: CharactersListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const selectedCharacters = useAppSelector(
     state => state.selected.selectedCharacters
@@ -26,24 +25,30 @@ function CharactersList({
       dispatch(selectCharacter(character));
     }
   };
+  const router = useRouter();
+  const handleCharacterClick = (id: string) => {
+    router.push(`/?details=${id}`);
+  };
+  const { theme } = useTheme();
 
   return (
-    <ul className="characters">
+    <ul className="characters" style={{ ...(theme as React.CSSProperties) }}>
       {characters.map(character => (
-        <div key={character.id}>
+        <div key={character.id} className="card">
           <input
             className="checkbox"
             type="checkbox"
             checked={isSelected(character.id)}
             onChange={() => toggleCheckbox(character)}
           />
-          <CharacterCard
-            key={character.id}
-            id={character.id}
-            name={character.name}
-            image={character.image}
-            onClick={onCharacterClick}
-          />
+
+          <button
+            type="button"
+            onClick={() => handleCharacterClick(character.id)}
+          >
+            <img src={character.image} alt={character.name} />
+            <h3>{character.name}</h3>
+          </button>
         </div>
       ))}
     </ul>

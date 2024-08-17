@@ -1,17 +1,16 @@
 import { screen, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { useRouter } from 'next/navigation';
 import renderWithProviders from '../../tests/renderWithProviders';
 import CharacterDetails from './CharacterDetails';
 import { mockCharacterDetails } from '../../utils/mocks';
 
-vi.mock('next/router', () => ({
-  useRouter: () => ({
-    query: {
-      page: '1',
-      search: 'rick',
-    },
-    push: vi.fn().mockResolvedValue(undefined),
+vi.mock('next/navigation', () => ({
+  useRouter: vi.fn(),
+  useSearchParams: () => ({
+    toString: () => 'page=1&search=rick',
+    delete: vi.fn(),
   }),
 }));
 
@@ -35,11 +34,15 @@ describe('CharacterDetails', () => {
   });
 
   it('handles closing details component by clicking the close button', async () => {
+    const mockPush = vi.fn();
+    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
+
     renderWithProviders(<CharacterDetails character={mockCharacterDetails} />);
 
     const user = userEvent.setup();
     const closeButton = screen.getByText(/Close/i);
     await user.click(closeButton);
-    expect(window.location.search).not.toContain('details=1');
+
+    expect(mockPush).toHaveBeenCalledWith('/?page=1&search=rick');
   });
 });

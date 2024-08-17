@@ -1,4 +1,4 @@
-import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 interface CharacterCardProps {
   id: string;
@@ -13,8 +13,9 @@ function CharacterCard({
   image,
   onClick,
 }: CharacterCardProps): JSX.Element {
+  const { theme } = useTheme();
   return (
-    <li className="card">
+    <li className="card" style={{ ...(theme as React.CSSProperties) }}>
       <img src={image} alt={name} />
       {name}
       <button type="button" onClick={() => onClick(id)}>
