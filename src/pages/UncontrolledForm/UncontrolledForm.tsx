@@ -78,7 +78,9 @@ function UncontrolledForm() {
   return (
     <main className="uncontrolled-form">
       <h1>Uncontrolled Form</h1>
-      <Link to={'/'}>back to Main</Link>
+      <Link to={'/'}>
+        <span className="link">Go back to the Main Page</span>
+      </Link>
       <form className="form" autoComplete="off" onSubmit={handleSubmit}>
         <div className="form-group">
           <UncontrolledInput type="text" title="Name :" name="name">

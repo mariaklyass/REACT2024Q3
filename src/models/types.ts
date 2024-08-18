@@ -1,3 +1,4 @@
+import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 // input
 export interface InputProps {
   title: string;
@@ -60,3 +61,30 @@ export type TileProps = {
   item: TileData;
   isLast?: boolean;
 };
+
+// RHF
+export interface RHFInput {
+  name: string;
+  age: number;
+  email: string;
+  gender: string;
+  password: string;
+  repeatedPassword: string;
+  picture: FileList;
+  terms?: boolean;
+  country: string;
+}
+
+export interface RHFSelectProps {
+  title: string;
+  children?: React.ReactNode;
+  register: ReturnType<UseFormRegister<RHFInput>>;
+}
+
+export interface RHFAutocompleteProps {
+  title: string;
+  callback: (newValue: string) => void;
+  value: string;
+  children: React.ReactNode;
+  register: UseFormRegisterReturn;
+}
