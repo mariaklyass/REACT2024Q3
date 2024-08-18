@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAppDispatch } from '../../store/hooks';
@@ -15,11 +15,12 @@ import RHFSelect from '../../components/Select/RHFSelect';
 import HookInput from '../../components/Input/HookInput';
 import RHFAutocomplete from '../../components/Autocomplete/RHFAutocomplete';
 import '../UncontrolledForm/form.scss';
+import PasswordIndicator from '../../components/PasswordIndicator';
 
 function HookForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [strength, setStrength] = useState<ReactNode>();
+  const [strength, setStrength] = useState<string>('');
 
   const {
     register,
@@ -101,7 +102,8 @@ function HookForm() {
             register={register('password')}
           >
             <ErrorMessage>{errors.password?.message}</ErrorMessage>
-            <div className="absolute right-0 top-0">{strength}</div>
+
+            <PasswordIndicator description={strength} />
           </HookInput>
         </div>
 
