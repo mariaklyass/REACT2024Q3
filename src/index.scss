@@ -1,4 +1,9 @@
-@import './pages/UncontrolledForm/index.scss';
+@import './pages/UncontrolledForm/form.scss';
+@import './components/ErrorMessage/error-message.scss';
+@import './components/SubmitButton/submit-button.scss';
+@import './components/Tile/tile.scss';
+@import './pages/UncontrolledForm/form.scss';
+@import './components/PasswordIndicator/password-indicator.scss';
 
 @font-face {
   font-family: 'RobotoCondensed';

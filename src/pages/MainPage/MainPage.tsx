@@ -8,7 +8,7 @@ function MainPage() {
         <Link to={'/hook-form'}>Hook Form</Link>
         <Link to={'/uncontrolled-form'}>Uncontrolled Form</Link>
       </section>
-      {/* list */}
+      {/* <div>here tiles list with form data should render</div> */}
     </main>
   );
 }

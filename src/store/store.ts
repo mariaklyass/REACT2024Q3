@@ -1,7 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
+import tilesReducer from '../store/slices/tilesSlice';
+import countriesReducer from './slices/countriesSlice';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    tiles: tilesReducer,
+    countries: countriesReducer,
+  },
 });
 
 export default store;
