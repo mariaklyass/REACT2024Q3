@@ -53,66 +53,84 @@ function HookForm() {
   };
 
   return (
-    <main className="">
+    <main className="hook-form">
       <h1>React Hook Form</h1>
       <Link to={'/'} className="">
-        to MainPage
+        <span className="link">Go back to the Main Page</span>{' '}
       </Link>
-      <form onSubmit={handleSubmit(onSubmit)} className="">
-        <HookInput type="text" title="Name :" register={register('name')}>
-          <ErrorMessage>{errors.name?.message}</ErrorMessage>
-        </HookInput>
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <div className="form-group">
+          <HookInput type="text" title="Name :" register={register('name')}>
+            <ErrorMessage>{errors.name?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
-        <HookInput type="number" title="Age :" register={register('age')}>
-          <ErrorMessage>{errors.age?.message}</ErrorMessage>
-        </HookInput>
+        <div className="form-group">
+          <HookInput type="number" title="Age :" register={register('age')}>
+            <ErrorMessage>{errors.age?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
-        <HookInput type="text" title="E-mail :" register={register('email')}>
-          <ErrorMessage>{errors.email?.message}</ErrorMessage>
-        </HookInput>
+        <div className="form-group">
+          <HookInput type="text" title="E-mail :" register={register('email')}>
+            <ErrorMessage>{errors.email?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
-        <RHFSelect title="Gender :" register={register('gender')}>
-          <ErrorMessage>{errors.gender?.message}</ErrorMessage>
-        </RHFSelect>
+        <div className="form-group">
+          <RHFSelect title="Gender :" register={register('gender')}>
+            <ErrorMessage>{errors.gender?.message}</ErrorMessage>
+          </RHFSelect>
+        </div>
 
-        <RHFAutocomplete
-          callback={updateCountry}
-          value={watchCountry}
-          title="Country :"
-          register={register('country')}
-        >
-          <ErrorMessage>{errors.country?.message}</ErrorMessage>
-        </RHFAutocomplete>
+        <div className="form-group">
+          <RHFAutocomplete
+            callback={updateCountry}
+            value={watchCountry}
+            title="Country :"
+            register={register('country')}
+          >
+            <ErrorMessage>{errors.country?.message}</ErrorMessage>
+          </RHFAutocomplete>
+        </div>
 
-        <HookInput
-          type="password"
-          title="Password :"
-          register={register('password')}
-        >
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
-          <div className="absolute right-0 top-0">{strength}</div>
-        </HookInput>
+        <div className="form-group">
+          <HookInput
+            type="password"
+            title="Password :"
+            register={register('password')}
+          >
+            <ErrorMessage>{errors.password?.message}</ErrorMessage>
+            <div className="absolute right-0 top-0">{strength}</div>
+          </HookInput>
+        </div>
 
-        <HookInput
-          type="password"
-          title="Repeat password :"
-          register={register('repeatedPassword')}
-        >
-          <ErrorMessage>{errors.repeatedPassword?.message}</ErrorMessage>
-        </HookInput>
+        <div className="form-group">
+          <HookInput
+            type="password"
+            title="Repeat password :"
+            register={register('repeatedPassword')}
+          >
+            <ErrorMessage>{errors.repeatedPassword?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
-        <HookInput
-          type="file"
-          title="Image :"
-          register={register('picture')}
-          accept=".png, .jpeg"
-        >
-          <ErrorMessage>{errors.picture?.message}</ErrorMessage>
-        </HookInput>
+        <div className="form-group">
+          <HookInput
+            type="file"
+            title="Image :"
+            register={register('picture')}
+            accept=".png, .jpeg"
+          >
+            <ErrorMessage>{errors.picture?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
-        <HookInput type="checkbox" title="T&C :" register={register('terms')}>
-          <ErrorMessage>{errors.terms?.message}</ErrorMessage>
-        </HookInput>
+        <div className="form-group checkbox-group">
+          <HookInput type="checkbox" title="T&C :" register={register('terms')}>
+            <ErrorMessage>{errors.terms?.message}</ErrorMessage>
+          </HookInput>
+        </div>
 
         <SubmitButton isDisabled={!isValid} />
       </form>
