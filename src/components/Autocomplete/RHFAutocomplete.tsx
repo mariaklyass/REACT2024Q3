@@ -6,7 +6,7 @@ import { RHFAutocompleteProps } from '../../models/types';
 const RHFAutocomplete: React.FC<RHFAutocompleteProps> = ({
   title,
   callback,
-  value,
+  value = '',
   children,
   register,
 }) => {
@@ -36,7 +36,7 @@ const RHFAutocomplete: React.FC<RHFAutocompleteProps> = ({
         type="text"
         onClick={toggleMenu}
         {...register}
-        value={value}
+        value={value || ''}
       />
       {children}
       {isOpen && <Suggestions countries={list} updateValue={callback} />}

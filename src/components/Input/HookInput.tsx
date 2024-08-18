@@ -13,9 +13,9 @@ const HookInput: React.FC<HookInputProps> = ({
   children,
 }) => {
   return (
-    <label className="">
-      <span className="">{title}</span>
-      <input {...register} type={type} accept={accept} className="" />
+    <label>
+      <span>{title}</span>
+      <input {...register} type={type} accept={accept} />
       {children}
     </label>
   );
