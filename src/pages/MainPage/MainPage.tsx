@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom';
+import TilesList from '../../components/TilesList';
 
 function MainPage() {
   return (
     <main>
       <h1>Main Page</h1>
-      <section>
+      <section className="links">
         <Link to={'/hook-form'}>Hook Form</Link>
         <Link to={'/uncontrolled-form'}>Uncontrolled Form</Link>
       </section>
-      {/* <div>here tiles list with form data should render</div> */}
+      <TilesList />
     </main>
   );
 }

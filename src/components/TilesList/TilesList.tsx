@@ -6,13 +6,14 @@ export default function TilesList() {
   const tiles = useAppSelector(state => state.tiles.tiles);
 
   return (
-    <section>
-      {tiles.map((tile, index) => {
-        if (index === tiles.length - 1) {
-          return <Tile key={index} item={tile} isLast={true}></Tile>;
-        }
-        return <Tile key={index} item={tile}></Tile>;
-      })}
+    <section className="tiles-list">
+      {tiles
+        .slice()
+        .reverse()
+        .map((tile, index) => {
+          const isLast = index === 0;
+          return <Tile key={index} item={tile} isLast={isLast} />;
+        })}
     </section>
   );
 }
