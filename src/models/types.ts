@@ -3,7 +3,7 @@ import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 export interface InputProps {
   title: string;
   type: string;
-  name: string;
+  name?: string;
   accept?: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   children?: React.ReactNode;
